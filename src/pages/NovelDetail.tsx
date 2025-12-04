@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import DOMPurify from 'dompurify';
 import { 
   Star, Eye, Clock, Heart, Share2, BookOpen, 
   ChevronLeft, Plus, Minus, Youtube, MessageCircle,
@@ -72,6 +73,18 @@ const NovelDetail = () => {
     return views.toString();
   };
 
+  const sanitizedContent = useMemo(() => {
+    if (!novel) return '';
+    const formattedContent = novel.content
+      .replace(/\n/g, '<br/>')
+      .replace(/## (.*?)$/gm, '<h2 class="font-display text-2xl mt-8 mb-4 text-foreground">$1</h2>')
+      .replace(/# (.*?)$/gm, '<h1 class="font-display text-3xl mt-8 mb-4 text-foreground">$1</h1>');
+    return DOMPurify.sanitize(formattedContent, {
+      ALLOWED_TAGS: ['br', 'h1', 'h2', 'p', 'strong', 'em', 'span'],
+      ALLOWED_ATTR: ['class']
+    });
+  }, [novel]);
+
   if (isImmersive) {
     return (
       <div className="min-h-screen bg-background">
@@ -93,7 +106,7 @@ const NovelDetail = () => {
           <h1 className="font-display text-4xl text-foreground mb-8">{novel.title}</h1>
           <div 
             className="text-foreground/90 leading-relaxed whitespace-pre-wrap"
-            dangerouslySetInnerHTML={{ __html: novel.content.replace(/\n/g, '<br/>').replace(/## /g, '<h2 class="font-display text-2xl mt-8 mb-4">').replace(/# /g, '<h1 class="font-display text-3xl mt-8 mb-4">') }}
+            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
           />
         </article>
       </div>
@@ -276,12 +289,7 @@ const NovelDetail = () => {
             >
               <div 
                 className="text-foreground/90 leading-relaxed whitespace-pre-wrap"
-                dangerouslySetInnerHTML={{ 
-                  __html: novel.content
-                    .replace(/\n/g, '<br/>')
-                    .replace(/## (.*?)$/gm, '<h2 class="font-display text-2xl mt-8 mb-4 text-foreground">$1</h2>')
-                    .replace(/# (.*?)$/gm, '<h1 class="font-display text-3xl mt-8 mb-4 text-foreground">$1</h1>')
-                }}
+                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
             </article>
 
