@@ -1,13 +1,106 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { Layout } from '@/components/layout/Layout';
+import { HeroCarousel } from '@/components/home/HeroCarousel';
+import { NovelCard } from '@/components/novel/NovelCard';
+import { CategoryFilter } from '@/components/home/CategoryFilter';
+import { TopNovels } from '@/components/home/TopNovels';
+import { FeaturedAuthors } from '@/components/home/FeaturedAuthors';
+import { YouTubeWidget } from '@/components/home/YouTubeWidget';
+import { novels, getFeaturedNovels, getTopNovels, authors } from '@/data/novels';
+import { useStore } from '@/store/useStore';
+import { Sparkles, TrendingUp, Clock } from 'lucide-react';
 
 const Index = () => {
+  const { selectedCategories } = useStore();
+  
+  const featuredNovels = getFeaturedNovels();
+  const topNovels = getTopNovels(10);
+
+  const filteredNovels = useMemo(() => {
+    if (selectedCategories.length === 0) return novels;
+    return novels.filter((novel) =>
+      novel.categories.some((cat) => selectedCategories.includes(cat))
+    );
+  }, [selectedCategories]);
+
+  const newNovels = filteredNovels.filter((n) => n.isNew);
+  const trendingNovels = [...filteredNovels].sort((a, b) => b.views - a.views).slice(0, 8);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <Layout>
+      {/* Hero Carousel */}
+      <HeroCarousel novels={featuredNovels} />
+
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Main Content */}
+          <div className="flex-1 min-w-0">
+            {/* Trending Section */}
+            <section className="mb-12">
+              <div className="flex items-center gap-3 mb-6">
+                <TrendingUp className="w-6 h-6 text-gold" />
+                <h2 className="font-display text-2xl font-bold text-foreground">
+                  Em Alta
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {trendingNovels.map((novel, index) => (
+                  <NovelCard key={novel.id} novel={novel} index={index} />
+                ))}
+              </div>
+            </section>
+
+            {/* New Releases */}
+            {newNovels.length > 0 && (
+              <section className="mb-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <Sparkles className="w-6 h-6 text-purple-accent" />
+                  <h2 className="font-display text-2xl font-bold text-foreground">
+                    Lançamentos
+                  </h2>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {newNovels.map((novel, index) => (
+                    <NovelCard key={novel.id} novel={novel} index={index} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* All Novels */}
+            <section>
+              <div className="flex items-center gap-3 mb-6">
+                <Clock className="w-6 h-6 text-muted-foreground" />
+                <h2 className="font-display text-2xl font-bold text-foreground">
+                  Todas as Novels
+                  {selectedCategories.length > 0 && (
+                    <span className="text-sm font-normal text-muted-foreground ml-2">
+                      ({filteredNovels.length} resultados)
+                    </span>
+                  )}
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredNovels.map((novel, index) => (
+                  <NovelCard key={novel.id} novel={novel} index={index} />
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="w-full lg:w-80 flex-shrink-0">
+            <div className="lg:sticky lg:top-24 space-y-6">
+              <CategoryFilter />
+              <TopNovels novels={topNovels} />
+              <FeaturedAuthors authors={authors} />
+              <YouTubeWidget />
+            </div>
+          </aside>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
