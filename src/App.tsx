@@ -13,6 +13,8 @@ import Popular from "./pages/Popular";
 import NewReleases from "./pages/NewReleases";
 import Search from "./pages/Search";
 import About from "./pages/About";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import AuthorProfile from "./pages/AuthorProfile";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -48,6 +50,8 @@ const App = () => (
             <Route path="/novos" element={<NewReleases />} />
             <Route path="/busca" element={<Search />} />
             <Route path="/sobre" element={<About />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/autor/:id" element={<AuthorProfile />} />
             <Route path="/auth" element={<Auth />} />
             {/* Admin Routes */}

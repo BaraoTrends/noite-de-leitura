@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 const About = () => {
   return (
     <Layout>
-      {/* Hero */}
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4">
           <motion.div
@@ -18,16 +17,15 @@ const About = () => {
               <BookOpen className="w-10 h-10 text-primary" />
             </div>
             <h1 className="font-display text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Sobre o NovelBrasil
+              About Us
             </h1>
             <p className="text-lg text-muted-foreground">
-              Conectando leitores e escritores através de histórias incríveis.
+              Connecting readers and writers through incredible stories.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Mission */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -37,20 +35,20 @@ const About = () => {
               viewport={{ once: true }}
             >
               <h2 className="font-display text-3xl font-bold text-foreground mb-6">
-                Nossa Missão
+                Our Mission
               </h2>
               <p className="text-muted-foreground mb-4">
-                O NovelBrasil nasceu da paixão por histórias e da vontade de criar um espaço 
-                onde leitores e escritores brasileiros possam se conectar através da literatura.
+                We were born from a passion for stories and the desire to create a space 
+                where readers and writers can connect through literature.
               </p>
               <p className="text-muted-foreground mb-4">
-                Acreditamos no poder das palavras para transformar vidas, inspirar sonhos 
-                e criar mundos onde tudo é possível. Nossa plataforma foi criada para 
-                democratizar o acesso à literatura e dar voz a novos talentos.
+                We believe in the power of words to transform lives, inspire dreams, 
+                and create worlds where anything is possible. Our platform was created to 
+                democratize access to literature and give voice to new talents.
               </p>
               <p className="text-muted-foreground">
-                Seja você um leitor ávido em busca de sua próxima aventura ou um escritor 
-                com histórias para contar, o NovelBrasil é o seu lugar.
+                Whether you're an avid reader looking for your next adventure or a writer 
+                with stories to tell, this is your place.
               </p>
             </motion.div>
 
@@ -61,11 +59,11 @@ const About = () => {
               className="grid grid-cols-2 gap-4"
             >
               {[
-                { icon: BookOpen, label: '30+', desc: 'Novels Publicadas' },
-                { icon: Users, label: '50K+', desc: 'Leitores Ativos' },
-                { icon: Heart, label: '1M+', desc: 'Visualizações' },
-                { icon: Target, label: '100%', desc: 'Gratuito' },
-              ].map((stat, index) => (
+                { icon: BookOpen, label: '30+', desc: 'Published Novels' },
+                { icon: Users, label: '50K+', desc: 'Active Readers' },
+                { icon: Heart, label: '1M+', desc: 'Views' },
+                { icon: Target, label: '100%', desc: 'Free' },
+              ].map((stat) => (
                 <div
                   key={stat.label}
                   className="bg-card rounded-xl p-6 border border-border text-center"
@@ -80,7 +78,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Values */}
       <section className="py-16 bg-card border-y border-border">
         <div className="container mx-auto px-4">
           <motion.div
@@ -90,24 +87,15 @@ const About = () => {
             className="text-center mb-12"
           >
             <h2 className="font-display text-3xl font-bold text-foreground mb-4">
-              Nossos Valores
+              Our Values
             </h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              {
-                title: 'Qualidade',
-                desc: 'Comprometidos em oferecer histórias bem escritas e conteúdo de qualidade.',
-              },
-              {
-                title: 'Comunidade',
-                desc: 'Criamos um ambiente acolhedor onde todos são bem-vindos.',
-              },
-              {
-                title: 'Diversidade',
-                desc: 'Celebramos diferentes vozes, gêneros e perspectivas na literatura.',
-              },
+              { title: 'Quality', desc: 'Committed to offering well-written stories and quality content.' },
+              { title: 'Community', desc: 'We create a welcoming environment where everyone is welcome.' },
+              { title: 'Diversity', desc: 'We celebrate different voices, genres, and perspectives in literature.' },
             ].map((value, index) => (
               <motion.div
                 key={value.title}
@@ -127,7 +115,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Contact */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <motion.div
@@ -137,21 +124,21 @@ const About = () => {
             className="text-center max-w-2xl mx-auto"
           >
             <h2 className="font-display text-3xl font-bold text-foreground mb-4">
-              Entre em Contato
+              Get in Touch
             </h2>
             <p className="text-muted-foreground mb-8">
-              Tem alguma dúvida, sugestão ou quer fazer parte da nossa equipe? 
-              Adoraríamos ouvir você!
+              Have a question, suggestion, or want to join our team? 
+              We'd love to hear from you!
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button variant="gold" size="lg" asChild>
-                <a href="mailto:contato@novelbrasil.com">
+                <a href="mailto:contact@eroticnovels.com">
                   <Mail className="w-5 h-5 mr-2" />
-                  Enviar Email
+                  Send Email
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <a href="https://youtube.com/@novelbrasil" target="_blank" rel="noopener noreferrer">
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
                   <Youtube className="w-5 h-5 mr-2" />
                   YouTube
                 </a>
