@@ -14,7 +14,7 @@ const navItems = [
   { label: 'Novels', href: '/admin/novels', icon: BookOpen },
   { label: 'Categories', href: '/admin/categories', icon: Tag },
   { label: 'Authors', href: '/admin/authors', icon: Users },
-  { label: 'Comments', href: '/admin/comments', icon: MessageSqule },
+  { label: 'Comments', href: '/admin/comments', icon: MessageSquare },
   { label: 'Banners', href: '/admin/banners', icon: Image },
   { label: 'Users', href: '/admin/users', icon: Shield },
   { label: 'SEO', href: '/admin/seo', icon: Globe },
