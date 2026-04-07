@@ -47,7 +47,7 @@ export function Header() {
               <BookOpen className="w-6 h-6 text-primary-foreground" />
             </div>
             <span className="font-display text-xl lg:text-2xl text-gradient-gold hidden sm:block">
-              Novels
+              Erotics Novels
             </span>
           </Link>
 

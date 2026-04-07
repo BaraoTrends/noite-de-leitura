@@ -56,7 +56,7 @@ export default function Auth() {
           <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center mx-auto mb-4">
             <BookOpen className="w-8 h-8 text-primary-foreground" />
           </div>
-          <h1 className="font-display text-3xl text-gradient-gold">Novels</h1>
+          <h1 className="font-display text-3xl text-gradient-gold">Erotics Novels</h1>
           <p className="text-muted-foreground mt-2">{isLogin ? 'Sign in to your account' : 'Create your account'}</p>
         </div>
 
