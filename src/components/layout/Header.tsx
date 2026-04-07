@@ -21,6 +21,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { searchQuery, setSearchQuery, preferences, setTheme } = useStore();
+  const { user, isAdmin, isAuthor, signOut: authSignOut } = useAuth();
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
