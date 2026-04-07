@@ -29,7 +29,7 @@ export default function AdminUsers() {
   useEffect(() => { fetchData(); }, []);
 
   const addRole = async (userId: string, role: string) => {
-    const { error } = await supabase.from('user_roles').insert({ user_id: userId, role });
+    const { error } = await supabase.from('user_roles').insert({ user_id: userId, role: role as any });
     if (error?.code === '23505') {
       toast({ title: 'Usuário já possui essa role.' });
     } else if (error) {
@@ -41,7 +41,7 @@ export default function AdminUsers() {
   };
 
   const removeRole = async (userId: string, role: string) => {
-    await supabase.from('user_roles').delete().eq('user_id', userId).eq('role', role);
+    await supabase.from('user_roles').delete().eq('user_id', userId).eq('role', role as any);
     toast({ title: `Role "${role}" removida` });
     fetchData();
   };
