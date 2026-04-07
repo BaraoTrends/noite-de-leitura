@@ -13,28 +13,16 @@ const NewReleases = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-12">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="font-display text-4xl font-bold text-foreground mb-4">
-            Lançamentos
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            As histórias mais recentes publicadas em nossa plataforma.
-          </p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+          <h1 className="font-display text-4xl font-bold text-foreground mb-4">New Releases</h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">The latest stories published on our platform.</p>
         </motion.div>
 
-        {/* New Releases */}
         {newNovels.length > 0 && (
           <section className="mb-16">
             <div className="flex items-center gap-3 mb-6">
               <Sparkles className="w-6 h-6 text-purple-accent" />
-              <h2 className="font-display text-2xl font-bold text-foreground">
-                Novidades
-              </h2>
+              <h2 className="font-display text-2xl font-bold text-foreground">What's New</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {newNovels.map((novel, index) => (
@@ -44,13 +32,10 @@ const NewReleases = () => {
           </section>
         )}
 
-        {/* Recent Publications */}
         <section>
           <div className="flex items-center gap-3 mb-6">
             <Calendar className="w-6 h-6 text-muted-foreground" />
-            <h2 className="font-display text-2xl font-bold text-foreground">
-              Publicações Recentes
-            </h2>
+            <h2 className="font-display text-2xl font-bold text-foreground">Recent Publications</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {recentNovels.map((novel, index) => (

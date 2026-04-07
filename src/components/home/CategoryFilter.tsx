@@ -15,7 +15,7 @@ export function CategoryFilter() {
       className="bg-card rounded-xl p-5 border border-border"
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-display font-semibold text-foreground">Categorias</h3>
+        <h3 className="font-display font-semibold text-foreground">Categories</h3>
         {selectedCategories.length > 0 && (
           <Button
             variant="ghost"
@@ -24,7 +24,7 @@ export function CategoryFilter() {
             className="text-xs text-muted-foreground hover:text-foreground h-auto py-1"
           >
             <X className="w-3 h-3 mr-1" />
-            Limpar
+            Clear
           </Button>
         )}
       </div>

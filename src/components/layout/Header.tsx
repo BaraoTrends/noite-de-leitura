@@ -9,12 +9,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
-  { label: 'Início', href: '/' },
-  { label: 'Categorias', href: '/categorias' },
-  { label: 'Populares', href: '/populares' },
-  { label: 'Novos', href: '/novos' },
-  { label: 'Novels Narradas', href: '/narradas' },
-  { label: 'Sobre', href: '/sobre' },
+  { label: 'Home', href: '/' },
+  { label: 'Categories', href: '/categorias' },
+  { label: 'Popular', href: '/populares' },
+  { label: 'New', href: '/novos' },
+  { label: 'Narrated', href: '/narradas' },
+  { label: 'About', href: '/sobre' },
 ];
 
 export function Header() {
@@ -42,17 +42,15 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-primary-foreground" />
             </div>
             <span className="font-display text-xl lg:text-2xl text-gradient-gold hidden sm:block">
-              NovelBrasil
+              Novels
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
@@ -65,33 +63,14 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Actions */}
           <div className="flex items-center gap-2">
-            {/* Search Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="text-muted-foreground hover:text-foreground"
-            >
+            <Button variant="ghost" size="icon" onClick={() => setIsSearchOpen(!isSearchOpen)} className="text-muted-foreground hover:text-foreground">
               <Search className="w-5 h-5" />
             </Button>
-
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="text-muted-foreground hover:text-foreground"
-            >
-              {preferences.theme === 'dark' ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
+            <Button variant="ghost" size="icon" onClick={toggleTheme} className="text-muted-foreground hover:text-foreground">
+              {preferences.theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
 
-            {/* Auth Actions */}
             {user ? (
               <>
                 {(isAdmin || isAuthor) && (
@@ -101,12 +80,7 @@ export function Header() {
                     </Button>
                   </Link>
                 )}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => authSignOut()}
-                  className="text-muted-foreground hover:text-foreground"
-                >
+                <Button variant="ghost" size="icon" onClick={() => authSignOut()} className="text-muted-foreground hover:text-foreground">
                   <LogOut className="w-5 h-5" />
                 </Button>
               </>
@@ -118,37 +92,19 @@ export function Header() {
               </Link>
             )}
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden text-muted-foreground hover:text-foreground"
-            >
+            <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden text-muted-foreground hover:text-foreground">
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
           </div>
         </div>
 
-        {/* Search Bar */}
         <AnimatePresence>
           {isSearchOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="overflow-hidden"
-            >
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
               <form onSubmit={handleSearch} className="py-4">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Buscar novels, autores, tags..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 bg-muted border-border focus:border-primary"
-                  />
+                  <Input type="text" placeholder="Search novels, authors, tags..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 bg-muted border-border focus:border-primary" />
                 </div>
               </form>
             </motion.div>
@@ -156,24 +112,12 @@ export function Header() {
         </AnimatePresence>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="lg:hidden bg-card border-t border-border overflow-hidden"
-          >
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="lg:hidden bg-card border-t border-border overflow-hidden">
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="px-4 py-3 text-base font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted"
-                >
+                <Link key={link.href} to={link.href} onClick={() => setIsMenuOpen(false)} className="px-4 py-3 text-base font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted">
                   {link.label}
                 </Link>
               ))}
