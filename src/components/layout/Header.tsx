@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Menu, X, BookOpen, Sun, Moon } from 'lucide-react';
+import { Search, Menu, X, BookOpen, Sun, Moon, LogIn, LayoutDashboard, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useStore } from '@/store/useStore';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
@@ -20,6 +21,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { searchQuery, setSearchQuery, preferences, setTheme } = useStore();
+  const { user, isAdmin, isAuthor, signOut: authSignOut } = useAuth();
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -89,7 +91,33 @@ export function Header() {
               )}
             </Button>
 
-            {/* Mobile Menu Toggle */}
+            {/* Auth Actions */}
+            {user ? (
+              <>
+                {(isAdmin || isAuthor) && (
+                  <Link to="/admin">
+                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                      <LayoutDashboard className="w-5 h-5" />
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => authSignOut()}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <LogOut className="w-5 h-5" />
+                </Button>
+              </>
+            ) : (
+              <Link to="/auth">
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                  <LogIn className="w-5 h-5" />
+                </Button>
+              </Link>
+            )}
+
             <Button
               variant="ghost"
               size="icon"
