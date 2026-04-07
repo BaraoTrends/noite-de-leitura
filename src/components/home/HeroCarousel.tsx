@@ -119,8 +119,8 @@ export function HeroCarousel({ novels }: HeroCarouselProps) {
                   </h1>
 
                   {/* Author */}
-                  <p className="text-lg text-muted-foreground mb-4">
-                    por <span className="text-gold font-medium">{currentNovel.author.name}</span>
+                    <p className="text-lg text-muted-foreground mb-4">
+                    by <span className="text-gold font-medium">{currentNovel.author.name}</span>
                   </p>
 
                   {/* Synopsis */}
@@ -145,7 +145,7 @@ export function HeroCarousel({ novels }: HeroCarouselProps) {
                   <Link to={`/novel/${currentNovel.id}`}>
                     <Button variant="hero" className="group">
                       <BookOpen className="w-5 h-5 mr-2 group-hover:animate-pulse" />
-                      Ler Agora
+                      Read Now
                     </Button>
                   </Link>
                 </motion.div>

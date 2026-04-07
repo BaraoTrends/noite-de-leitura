@@ -8,7 +8,7 @@ interface TopNovelsProps {
   title?: string;
 }
 
-export function TopNovels({ novels, title = "Top 10 da Semana" }: TopNovelsProps) {
+export function TopNovels({ novels, title = "Top 10 This Week" }: TopNovelsProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

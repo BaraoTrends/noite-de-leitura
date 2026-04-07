@@ -16,11 +16,11 @@ const navItems = [
   { label: 'Autores', href: '/admin/authors', icon: Users },
   { label: 'Comentários', href: '/admin/comments', icon: MessageSquare },
   { label: 'Banners', href: '/admin/banners', icon: Image },
-  { label: 'Usuários', href: '/admin/users', icon: Shield },
+  { label: 'Users', href: '/admin/users', icon: Shield },
   { label: 'SEO', href: '/admin/seo', icon: Globe },
   { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
-  { label: 'Notificações', href: '/admin/notifications', icon: Bell },
-  { label: 'Configurações', href: '/admin/settings', icon: Settings },
+  { label: 'Notifications', href: '/admin/notifications', icon: Bell },
+  { label: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
 export function AdminLayout({ children }: { children: ReactNode }) {
@@ -28,7 +28,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  if (loading) return <div className="min-h-screen bg-background flex items-center justify-center"><p className="text-muted-foreground">Carregando...</p></div>;
+  if (loading) return <div className="min-h-screen bg-background flex items-center justify-center"><p className="text-muted-foreground">Loading...</p></div>;
   if (!user) return <Navigate to="/auth" replace />;
   if (!isAdmin && !isAuthor) return <Navigate to="/" replace />;
 
@@ -80,14 +80,14 @@ export function AdminLayout({ children }: { children: ReactNode }) {
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted"
           >
             <ChevronLeft className="w-5 h-5 shrink-0" />
-            {sidebarOpen && <span>Voltar ao site</span>}
+            {sidebarOpen && <span>Back to Site</span>}
           </Link>
           <button
             onClick={signOut}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-destructive hover:bg-muted w-full"
           >
             <LogOut className="w-5 h-5 shrink-0" />
-            {sidebarOpen && <span>Sair</span>}
+            {sidebarOpen && <span>Sign Out</span>}
           </button>
         </div>
       </aside>

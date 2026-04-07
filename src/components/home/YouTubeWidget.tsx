@@ -11,7 +11,7 @@ export function YouTubeWidget() {
     >
       <div className="flex items-center gap-2 mb-4">
         <Youtube className="w-5 h-5 text-red-500" />
-        <h3 className="font-display font-semibold text-foreground">Novels Narradas</h3>
+        <h3 className="font-display font-semibold text-foreground">Narrated Novels</h3>
       </div>
       
       {/* Embedded Video */}
@@ -29,20 +29,20 @@ export function YouTubeWidget() {
       </div>
 
       <p className="text-sm text-muted-foreground mb-4">
-        Ouça suas novels favoritas narradas profissionalmente no nosso canal do YouTube.
+        Listen to your favorite novels professionally narrated on our YouTube channel.
       </p>
 
       <div className="space-y-2">
         <Button variant="destructive" className="w-full bg-red-600 hover:bg-red-700" asChild>
-          <a href="https://youtube.com/@novelbrasil" target="_blank" rel="noopener noreferrer">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
             <Youtube className="w-4 h-4 mr-2" />
-            Inscreva-se
+            Subscribe
           </a>
         </Button>
         <Button variant="outline" className="w-full" asChild>
           <a href="/narradas">
             <ExternalLink className="w-4 h-4 mr-2" />
-            Ver Todas
+            View All
           </a>
         </Button>
       </div>

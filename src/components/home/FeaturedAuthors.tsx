@@ -22,7 +22,7 @@ export function FeaturedAuthors({ authors }: FeaturedAuthorsProps) {
     >
       <div className="flex items-center gap-2 mb-4">
         <Users className="w-5 h-5 text-purple-accent" />
-        <h3 className="font-display font-semibold text-foreground">Autores em Destaque</h3>
+        <h3 className="font-display font-semibold text-foreground">Featured Authors</h3>
       </div>
       
       <div className="space-y-4">
