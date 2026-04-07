@@ -11,27 +11,15 @@ const Popular = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-12">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="font-display text-4xl font-bold text-foreground mb-4">
-            Novels Populares
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            As histórias mais amadas pelos nossos leitores.
-          </p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+          <h1 className="font-display text-4xl font-bold text-foreground mb-4">Popular Novels</h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">The most loved stories by our readers.</p>
         </motion.div>
 
-        {/* Most Viewed */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <Flame className="w-6 h-6 text-orange-500" />
-            <h2 className="font-display text-2xl font-bold text-foreground">
-              Mais Lidas
-            </h2>
+            <h2 className="font-display text-2xl font-bold text-foreground">Most Read</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {topNovels.slice(0, 8).map((novel, index) => (
@@ -47,13 +35,10 @@ const Popular = () => {
           </div>
         </section>
 
-        {/* Highest Rated */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <Crown className="w-6 h-6 text-gold" />
-            <h2 className="font-display text-2xl font-bold text-foreground">
-              Melhor Avaliadas
-            </h2>
+            <h2 className="font-display text-2xl font-bold text-foreground">Highest Rated</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {highestRated.map((novel, index) => (
@@ -62,13 +47,10 @@ const Popular = () => {
           </div>
         </section>
 
-        {/* Trending */}
         <section>
           <div className="flex items-center gap-3 mb-6">
             <TrendingUp className="w-6 h-6 text-purple-accent" />
-            <h2 className="font-display text-2xl font-bold text-foreground">
-              Em Alta Esta Semana
-            </h2>
+            <h2 className="font-display text-2xl font-bold text-foreground">Trending This Week</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {topNovels.slice(0, 12).map((novel, index) => (

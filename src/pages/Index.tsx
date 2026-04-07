@@ -13,7 +13,6 @@ import { Sparkles, TrendingUp, Clock } from 'lucide-react';
 
 const Index = () => {
   const { selectedCategories } = useStore();
-  
   const featuredNovels = getFeaturedNovels();
   const topNovels = getTopNovels(10);
 
@@ -29,20 +28,14 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Hero Carousel */}
       <HeroCarousel novels={featuredNovels} />
-
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Main Content */}
           <div className="flex-1 min-w-0">
-            {/* Trending Section */}
             <section className="mb-12">
               <div className="flex items-center gap-3 mb-6">
                 <TrendingUp className="w-6 h-6 text-gold" />
-                <h2 className="font-display text-2xl font-bold text-foreground">
-                  Em Alta
-                </h2>
+                <h2 className="font-display text-2xl font-bold text-foreground">Trending</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {trendingNovels.map((novel, index) => (
@@ -51,14 +44,11 @@ const Index = () => {
               </div>
             </section>
 
-            {/* New Releases */}
             {newNovels.length > 0 && (
               <section className="mb-12">
                 <div className="flex items-center gap-3 mb-6">
                   <Sparkles className="w-6 h-6 text-purple-accent" />
-                  <h2 className="font-display text-2xl font-bold text-foreground">
-                    Lançamentos
-                  </h2>
+                  <h2 className="font-display text-2xl font-bold text-foreground">New Releases</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {newNovels.map((novel, index) => (
@@ -68,15 +58,14 @@ const Index = () => {
               </section>
             )}
 
-            {/* All Novels */}
             <section>
               <div className="flex items-center gap-3 mb-6">
                 <Clock className="w-6 h-6 text-muted-foreground" />
                 <h2 className="font-display text-2xl font-bold text-foreground">
-                  Todas as Novels
+                  All Novels
                   {selectedCategories.length > 0 && (
                     <span className="text-sm font-normal text-muted-foreground ml-2">
-                      ({filteredNovels.length} resultados)
+                      ({filteredNovels.length} results)
                     </span>
                   )}
                 </h2>
@@ -89,7 +78,6 @@ const Index = () => {
             </section>
           </div>
 
-          {/* Sidebar */}
           <aside className="w-full lg:w-80 flex-shrink-0">
             <div className="lg:sticky lg:top-24 space-y-6">
               <CategoryFilter />
