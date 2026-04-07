@@ -91,7 +91,33 @@ export function Header() {
               )}
             </Button>
 
-            {/* Mobile Menu Toggle */}
+            {/* Auth Actions */}
+            {user ? (
+              <>
+                {(isAdmin || isAuthor) && (
+                  <Link to="/admin">
+                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                      <LayoutDashboard className="w-5 h-5" />
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => authSignOut()}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <LogOut className="w-5 h-5" />
+                </Button>
+              </>
+            ) : (
+              <Link to="/auth">
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                  <LogIn className="w-5 h-5" />
+                </Button>
+              </Link>
+            )}
+
             <Button
               variant="ghost"
               size="icon"
