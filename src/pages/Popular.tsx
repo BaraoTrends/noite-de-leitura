@@ -1,13 +1,30 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Flame, Crown } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { useNovels } from '@/hooks/useNovels';
+import { PaginationControls } from '@/components/ui/pagination-controls';
 
 const Popular = () => {
-  const { novels, loading } = useNovels();
-  const topNovels = [...novels].sort((a, b) => b.views - a.views).slice(0, 20);
-  const highestRated = [...novels].sort((a, b) => b.rating - a.rating).slice(0, 10);
+  const [trendingPage, setTrendingPage] = useState(1);
+  const { novels: topNovels, loading: topLoading } = useNovels({ page: 1, pageSize: 8, sort: 'popular' });
+  const { novels: highestRated, loading: ratedLoading } = useNovels({ page: 1, pageSize: 8, sort: 'rating' });
+  const {
+    novels: trendingNovels,
+    loading: trendingLoading,
+    totalPages: trendingTotalPages,
+  } = useNovels({ page: trendingPage, pageSize: 8, sort: 'popular' });
+
+  if (topLoading && ratedLoading && trendingLoading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-muted-foreground">Loading novels...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -23,7 +40,7 @@ const Popular = () => {
             <h2 className="font-display text-2xl font-bold text-foreground">Most Read</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {topNovels.slice(0, 8).map((novel, index) => (
+            {topNovels.map((novel, index) => (
               <div key={novel.id} className="relative">
                 {index < 3 && (
                   <div className="absolute -top-2 -left-2 z-10 w-8 h-8 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center">
@@ -54,10 +71,11 @@ const Popular = () => {
             <h2 className="font-display text-2xl font-bold text-foreground">Trending This Week</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {topNovels.slice(0, 12).map((novel, index) => (
+            {trendingNovels.map((novel, index) => (
               <NovelCard key={novel.id} novel={novel} index={index} />
             ))}
           </div>
+          <PaginationControls className="mt-10" page={trendingPage} totalPages={trendingTotalPages} onPageChange={setTrendingPage} />
         </section>
       </div>
     </Layout>

@@ -1,14 +1,34 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Calendar } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { useNovels } from '@/hooks/useNovels';
+import { PaginationControls } from '@/components/ui/pagination-controls';
 
 const NewReleases = () => {
-  const { novels, newNovels, loading } = useNovels();
-  const recentNovels = [...novels]
-    .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
-    .slice(0, 20);
+  const [newPage, setNewPage] = useState(1);
+  const [recentPage, setRecentPage] = useState(1);
+  const {
+    novels: newNovels,
+    loading: newLoading,
+    totalPages: newTotalPages,
+  } = useNovels({ page: newPage, pageSize: 8, sort: 'newest', onlyNew: true });
+  const {
+    novels: recentNovels,
+    loading: recentLoading,
+    totalPages: recentTotalPages,
+  } = useNovels({ page: recentPage, pageSize: 8, sort: 'newest' });
+
+  if (newLoading && recentLoading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-muted-foreground">Loading novels...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -29,6 +49,7 @@ const NewReleases = () => {
                 <NovelCard key={novel.id} novel={novel} index={index} />
               ))}
             </div>
+            <PaginationControls className="mt-10" page={newPage} totalPages={newTotalPages} onPageChange={setNewPage} />
           </section>
         )}
 
@@ -42,6 +63,7 @@ const NewReleases = () => {
               <NovelCard key={novel.id} novel={novel} index={index} />
             ))}
           </div>
+          <PaginationControls className="mt-10" page={recentPage} totalPages={recentTotalPages} onPageChange={setRecentPage} />
         </section>
       </div>
     </Layout>
