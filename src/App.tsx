@@ -19,6 +19,7 @@ import Privacy from "./pages/Privacy";
 import AuthorProfile from "./pages/AuthorProfile";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import ChapterReader from "./pages/ChapterReader";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminNovels from "./pages/admin/AdminNovels";
 import NovelEditor from "./pages/admin/NovelEditor";
@@ -46,6 +47,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/novel/:id" element={<NovelDetail />} />
+            <Route path="/novel/:novelId/capitulo/:chapterId" element={<ChapterReader />} />
             <Route path="/categorias" element={<Categories />} />
             <Route path="/categoria/:category" element={<Category />} />
             <Route path="/narradas" element={<NarratedNovels />} />
