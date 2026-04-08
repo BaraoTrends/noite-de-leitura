@@ -13,6 +13,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { AIGenerateNovelDialog } from '@/components/ai/AIGenerateNovelDialog';
 import { AIGenerateChaptersDialog } from '@/components/ai/AIGenerateChaptersDialog';
+import { AIGenerateCoverDialog } from '@/components/ai/AIGenerateCoverDialog';
 
 const AGE_RATINGS = ['Livre', '+12', '+16', '+18'];
 const STATUSES = ['draft', 'published', 'archived'];
@@ -67,6 +68,7 @@ export default function NovelEditor() {
           <Button variant="ghost" onClick={() => navigate('/admin/novels')}><ArrowLeft className="w-4 h-4 mr-2" />Back</Button>
           <h1 className="font-display text-2xl text-foreground">{isNew ? 'New Novel' : 'Edit Novel'}</h1>
           <div className="ml-auto flex gap-2">
+            <AIGenerateCoverDialog novelTitle={form.title} onGenerated={(url) => handleChange('thumbnail_url', url)} />
             <AIGenerateNovelDialog onGenerated={(data) => {
               setForm(prev => ({
                 ...prev,
