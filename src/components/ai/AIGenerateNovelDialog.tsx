@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAIGeneration } from '@/hooks/useAIGeneration';
 import { useToast } from '@/hooks/use-toast';
+import { AIModelSelect } from './AIModelSelect';
 
 const GENRES = ['Romance', 'Fantasia', 'Terror', 'Ficção Científica', 'Mistério', 'Aventura', 'Drama', 'Comédia'];
 const TONES = ['Dramático', 'Romântico', 'Sombrio', 'Leve', 'Suspense', 'Épico'];
@@ -21,11 +22,12 @@ export function AIGenerateNovelDialog({ onGenerated, triggerVariant = 'button' }
   const [genre, setGenre] = useState('');
   const [theme, setTheme] = useState('');
   const [tone, setTone] = useState('Dramático');
+  const [model, setModel] = useState('google/gemini-3-flash-preview');
   const { generateNovel, loading } = useAIGeneration();
   const { toast } = useToast();
 
   const handleGenerate = async () => {
-    const result = await generateNovel({ genre, theme, tone, language: 'Portuguese (Brazil)' });
+    const result = await generateNovel({ genre, theme, tone, language: 'Portuguese (Brazil)', model });
     if (result && !result.raw) {
       onGenerated?.(result);
       toast({ title: 'Novel gerada!', description: `"${result.title}" foi criada com IA.` });
@@ -57,6 +59,7 @@ export function AIGenerateNovelDialog({ onGenerated, triggerVariant = 'button' }
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
+          <AIModelSelect value={model} onChange={setModel} />
           <div className="space-y-2">
             <Label>Gênero</Label>
             <Select value={genre} onValueChange={setGenre}>

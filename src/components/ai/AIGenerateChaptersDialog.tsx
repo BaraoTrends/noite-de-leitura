@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAIGeneration } from '@/hooks/useAIGeneration';
 import { useToast } from '@/hooks/use-toast';
+import { AIModelSelect } from './AIModelSelect';
 
 interface Props {
   novelTitle: string;
@@ -17,6 +18,7 @@ interface Props {
 export function AIGenerateChaptersDialog({ novelTitle, novelSynopsis, novelId, onGenerated }: Props) {
   const [open, setOpen] = useState(false);
   const [chapterCount, setChapterCount] = useState(5);
+  const [model, setModel] = useState('google/gemini-3-flash-preview');
   const { generateChapters, loading } = useAIGeneration();
   const { toast } = useToast();
 
@@ -26,6 +28,7 @@ export function AIGenerateChaptersDialog({ novelTitle, novelSynopsis, novelId, o
       novelSynopsis,
       chapterCount,
       language: 'Portuguese (Brazil)',
+      model,
     });
     if (result?.chapters) {
       onGenerated?.(result.chapters);
@@ -50,6 +53,7 @@ export function AIGenerateChaptersDialog({ novelTitle, novelSynopsis, novelId, o
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
+          <AIModelSelect value={model} onChange={setModel} />
           <div className="space-y-2">
             <Label>Quantidade de capítulos</Label>
             <Input
