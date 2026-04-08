@@ -5,6 +5,7 @@ import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { useNovels } from '@/hooks/useNovels';
 import { PaginationControls } from '@/components/ui/pagination-controls';
+import { PromoSlot } from '@/components/PromoSlot';
 
 const Popular = () => {
   const [trendingPage, setTrendingPage] = useState(1);
@@ -52,6 +53,8 @@ const Popular = () => {
             ))}
           </div>
         </section>
+
+        <PromoSlot variant="inline" className="mb-16" />
 
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-6">

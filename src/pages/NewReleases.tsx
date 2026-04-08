@@ -5,6 +5,7 @@ import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { useNovels } from '@/hooks/useNovels';
 import { PaginationControls } from '@/components/ui/pagination-controls';
+import { PromoSlot } from '@/components/PromoSlot';
 
 const NewReleases = () => {
   const [newPage, setNewPage] = useState(1);
@@ -52,6 +53,8 @@ const NewReleases = () => {
             <PaginationControls className="mt-10" page={newPage} totalPages={newTotalPages} onPageChange={setNewPage} />
           </section>
         )}
+
+        <PromoSlot variant="inline" className="mb-16" />
 
         <section>
           <div className="flex items-center gap-3 mb-6">

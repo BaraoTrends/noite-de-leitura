@@ -10,6 +10,7 @@ import { YouTubeWidget } from '@/components/home/YouTubeWidget';
 import { useNovels } from '@/hooks/useNovels';
 import { useStore } from '@/store/useStore';
 import { Sparkles, TrendingUp, Clock } from 'lucide-react';
+import { PromoSlot } from '@/components/PromoSlot';
 
 const Index = () => {
   const { selectedCategories } = useStore();
@@ -55,6 +56,8 @@ const Index = () => {
               </section>
             )}
 
+            <PromoSlot variant="horizontal" className="mb-12" />
+
             {newNovels.length > 0 && (
               <section className="mb-12">
                 <div className="flex items-center gap-3 mb-6">
@@ -97,7 +100,9 @@ const Index = () => {
             <div className="lg:sticky lg:top-24 space-y-6">
               <CategoryFilter />
               {topNovels.length > 0 && <TopNovels novels={topNovels} />}
+              <PromoSlot variant="sidebar" limit={2} />
               <FeaturedAuthors authors={[]} />
+              <YouTubeWidget />
               <YouTubeWidget />
             </div>
           </aside>

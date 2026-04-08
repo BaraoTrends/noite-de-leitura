@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Rating } from '@/components/novel/Rating';
 import { NovelCard } from '@/components/novel/NovelCard';
+import { PromoSlot } from '@/components/PromoSlot';
 import { useNovelById, useNovels } from '@/hooks/useNovels';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
@@ -161,6 +162,7 @@ const NovelDetail = () => {
 
           <aside className="w-full lg:w-80 flex-shrink-0">
             <div className="lg:sticky lg:top-24 space-y-6">
+              <PromoSlot variant="sidebar" limit={1} />
               {novel.youtubeVideoId && (
                 <div className="bg-card rounded-xl p-5 border border-border">
                   <div className="flex items-center gap-2 mb-4"><Youtube className="w-5 h-5 text-red-500" /><h3 className="font-display font-semibold text-foreground">Narrated Version</h3></div>
