@@ -11,6 +11,7 @@ import { useNovels } from '@/hooks/useNovels';
 import { useStore } from '@/store/useStore';
 import { Sparkles, TrendingUp, Clock } from 'lucide-react';
 import { PromoSlot } from '@/components/PromoSlot';
+import { SEOHead } from '@/components/SEOHead';
 
 const Index = () => {
   const { selectedCategories } = useStore();
@@ -36,8 +37,26 @@ const Index = () => {
     );
   }
 
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Erotics Novels',
+    url: 'https://novelbraril.lovable.app',
+    description: 'Your favorite platform to read novels and stories online.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: 'https://novelbraril.lovable.app/busca?q={search_term_string}',
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <Layout>
+      <SEOHead
+        canonicalUrl="/"
+        keywords="novels, stories, reading, fantasy, romance, suspense, free novels online"
+        jsonLd={websiteJsonLd}
+      />
       {featuredNovels.length > 0 && <HeroCarousel novels={featuredNovels} />}
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
