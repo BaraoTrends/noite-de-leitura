@@ -7,42 +7,53 @@ import { CategoryFilter } from '@/components/home/CategoryFilter';
 import { TopNovels } from '@/components/home/TopNovels';
 import { FeaturedAuthors } from '@/components/home/FeaturedAuthors';
 import { YouTubeWidget } from '@/components/home/YouTubeWidget';
-import { novels, getFeaturedNovels, getTopNovels, authors } from '@/data/novels';
+import { useNovels } from '@/hooks/useNovels';
 import { useStore } from '@/store/useStore';
 import { Sparkles, TrendingUp, Clock } from 'lucide-react';
 
 const Index = () => {
   const { selectedCategories } = useStore();
-  const featuredNovels = getFeaturedNovels();
-  const topNovels = getTopNovels(10);
+  const { novels, featuredNovels, topNovels, newNovels: allNewNovels, loading } = useNovels();
 
   const filteredNovels = useMemo(() => {
     if (selectedCategories.length === 0) return novels;
     return novels.filter((novel) =>
       novel.categories.some((cat) => selectedCategories.includes(cat))
     );
-  }, [selectedCategories]);
+  }, [selectedCategories, novels]);
 
   const newNovels = filteredNovels.filter((n) => n.isNew);
   const trendingNovels = [...filteredNovels].sort((a, b) => b.views - a.views).slice(0, 8);
 
+  if (loading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-24 text-center">
+          <p className="text-muted-foreground">Carregando...</p>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
-      <HeroCarousel novels={featuredNovels} />
+      {featuredNovels.length > 0 && <HeroCarousel novels={featuredNovels} />}
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 min-w-0">
-            <section className="mb-12">
-              <div className="flex items-center gap-3 mb-6">
-                <TrendingUp className="w-6 h-6 text-gold" />
-                <h2 className="font-display text-2xl font-bold text-foreground">Trending</h2>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {trendingNovels.map((novel, index) => (
-                  <NovelCard key={novel.id} novel={novel} index={index} />
-                ))}
-              </div>
-            </section>
+            {trendingNovels.length > 0 && (
+              <section className="mb-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <TrendingUp className="w-6 h-6 text-gold" />
+                  <h2 className="font-display text-2xl font-bold text-foreground">Trending</h2>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {trendingNovels.map((novel, index) => (
+                    <NovelCard key={novel.id} novel={novel} index={index} />
+                  ))}
+                </div>
+              </section>
+            )}
 
             {newNovels.length > 0 && (
               <section className="mb-12">
@@ -70,19 +81,23 @@ const Index = () => {
                   )}
                 </h2>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredNovels.map((novel, index) => (
-                  <NovelCard key={novel.id} novel={novel} index={index} />
-                ))}
-              </div>
+              {filteredNovels.length === 0 ? (
+                <p className="text-muted-foreground text-center py-12">Nenhum novel encontrado.</p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {filteredNovels.map((novel, index) => (
+                    <NovelCard key={novel.id} novel={novel} index={index} />
+                  ))}
+                </div>
+              )}
             </section>
           </div>
 
           <aside className="w-full lg:w-80 flex-shrink-0">
             <div className="lg:sticky lg:top-24 space-y-6">
               <CategoryFilter />
-              <TopNovels novels={topNovels} />
-              <FeaturedAuthors authors={authors} />
+              {topNovels.length > 0 && <TopNovels novels={topNovels} />}
+              <FeaturedAuthors authors={[]} />
               <YouTubeWidget />
             </div>
           </aside>
