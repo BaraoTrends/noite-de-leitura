@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
 import { useChapterById, useChaptersByNovel } from '@/hooks/useChapters';
 import { useNovelById } from '@/hooks/useNovels';
+import { useReadingProgress } from '@/hooks/useReadingProgress';
+import { useAuth } from '@/contexts/AuthContext';
 
 const ChapterReader = () => {
   const { novelId, chapterId } = useParams<{ novelId: string; chapterId: string }>();
