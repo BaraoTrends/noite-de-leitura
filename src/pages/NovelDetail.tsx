@@ -18,6 +18,9 @@ import { SEOHead } from '@/components/SEOHead';
 import { useNovelById, useNovels } from '@/hooks/useNovels';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
+import { AIGenerateChaptersDialog } from '@/components/ai/AIGenerateChaptersDialog';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 const NovelDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,6 +31,7 @@ const NovelDetail = () => {
   const { novel, loading } = useNovelById(id);
   const { novels: allNovels } = useNovels();
   const { chapters } = useChaptersByNovel(id);
+  const { user } = useAuth();
   const favorite = novel ? isFavorite(novel.id) : false;
   const relatedNovels = allNovels.filter((n) => novel && n.id !== novel.id && n.categories.some((c) => novel.categories.includes(c))).slice(0, 4);
   const authorNovelCount = novel ? allNovels.filter((n) => n.author.id === novel.author.id).length : 0;
@@ -201,6 +205,25 @@ const NovelDetail = () => {
                   <h2 className="font-display text-xl font-bold text-foreground">
                     Capítulos ({chapters.length})
                   </h2>
+                  {user && novel && (
+                    <AIGenerateChaptersDialog
+                      novelTitle={novel.title}
+                      novelSynopsis={novel.synopsis}
+                      novelId={novel.id}
+                      onGenerated={async (genChapters) => {
+                        for (const ch of genChapters) {
+                          await supabase.from('chapters').insert({
+                            novel_id: novel.id,
+                            title: ch.title,
+                            chapter_order: ch.chapter_order,
+                            content: ch.content,
+                            status: 'draft',
+                          });
+                        }
+                        window.location.reload();
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="space-y-1 max-h-80 overflow-y-auto">
                   {chapters.map((ch) => (
