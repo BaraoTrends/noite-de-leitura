@@ -25,6 +25,19 @@ const NovelDetail = () => {
   const { novel, loading } = useNovelById(id);
   const { novels: allNovels } = useNovels();
   const favorite = novel ? isFavorite(novel.id) : false;
+  const relatedNovels = allNovels.filter((n) => novel && n.id !== novel.id && n.categories.some((c) => novel.categories.includes(c))).slice(0, 4);
+
+  const sanitizedContent = useMemo(() => {
+    if (!novel) return '';
+    const formattedContent = novel.content
+      .replace(/\n/g, '<br/>')
+      .replace(/## (.*?)$/gm, '<h2 class="font-display text-2xl mt-8 mb-4 text-foreground">$1</h2>')
+      .replace(/# (.*?)$/gm, '<h1 class="font-display text-3xl mt-8 mb-4 text-foreground">$1</h1>');
+    return DOMPurify.sanitize(formattedContent, { ALLOWED_TAGS: ['br', 'h1', 'h2', 'p', 'strong', 'em', 'span'], ALLOWED_ATTR: ['class'] });
+  }, [novel]);
+
+  const formatDate = (date: string) => new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+  const formatViews = (views: number) => { if (views >= 1000000) return `${(views / 1000000).toFixed(1)}M`; if (views >= 1000) return `${(views / 1000).toFixed(1)}K`; return views.toString(); };
 
   useEffect(() => {
     if (novel) { addToHistory(novel.id); }
@@ -46,18 +59,6 @@ const NovelDetail = () => {
   }
 
   const handleFavorite = () => { if (favorite) { removeFavorite(novel.id); } else { addFavorite(novel.id); } };
-
-  const relatedNovels = allNovels.filter((n) => n.id !== novel.id && n.categories.some((c) => novel.categories.includes(c))).slice(0, 4);
-
-  const formatDate = (date: string) => new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
-  const formatViews = (views: number) => { if (views >= 1000000) return `${(views / 1000000).toFixed(1)}M`; if (views >= 1000) return `${(views / 1000).toFixed(1)}K`; return views.toString(); };
-
-  const sanitizedContent = useMemo(() => {
-    if (!novel) return '';
-    const formattedContent = novel.content
-      .replace(/\n/g, '<br/>')
-      .replace(/## (.*?)$/gm, '<h2 class="font-display text-2xl mt-8 mb-4 text-foreground">$1</h2>')
-      .replace(/# (.*?)$/gm, '<h1 class="font-display text-3xl mt-8 mb-4 text-foreground">$1</h1>');
     return DOMPurify.sanitize(formattedContent, { ALLOWED_TAGS: ['br', 'h1', 'h2', 'p', 'strong', 'em', 'span'], ALLOWED_ATTR: ['class'] });
   }, [novel]);
 
