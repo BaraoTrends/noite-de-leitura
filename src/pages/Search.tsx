@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search as SearchIcon, Filter, X } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

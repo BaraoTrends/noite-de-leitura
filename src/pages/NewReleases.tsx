@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Calendar } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { useNovels } from '@/hooks/useNovels';
 import { PaginationControls } from '@/components/ui/pagination-controls';

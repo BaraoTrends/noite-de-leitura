@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { BookOpen, Heart, Users, Target, Youtube, Mail } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
 
 const About = () => {

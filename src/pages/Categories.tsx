@@ -5,6 +5,7 @@ import {
   AlertTriangle, Skull, Search, Ghost, Laugh, Sword, History
 } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { useNovels } from '@/hooks/useNovels';
 import { CATEGORIES } from '@/types/novel';
 

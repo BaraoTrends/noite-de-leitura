@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Youtube, ExternalLink, Play } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { Button } from '@/components/ui/button';
 import { useNovels } from '@/hooks/useNovels';
