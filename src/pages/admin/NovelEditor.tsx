@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { AIGenerateNovelDialog } from '@/components/ai/AIGenerateNovelDialog';
 import { AIGenerateChaptersDialog } from '@/components/ai/AIGenerateChaptersDialog';
 import { AIGenerateCoverDialog } from '@/components/ai/AIGenerateCoverDialog';
+import { Sparkles, Loader2 } from 'lucide-react';
 
 const AGE_RATINGS = ['Livre', '+12', '+16', '+18'];
 const STATUSES = ['draft', 'published', 'archived'];
@@ -29,6 +30,7 @@ export default function NovelEditor() {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({ title: '', slug: '', synopsis: '', content: '', author_id: '', thumbnail_url: '', age_rating: 'Livre', status: 'draft', is_featured: false, is_new: true, youtube_video_id: '', read_time: 0, meta_title: '', meta_description: '', meta_keywords: '' });
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [generatingSeo, setGeneratingSeo] = useState(false);
 
   useEffect(() => {
     supabase.from('authors').select('id, name').then(({ data }) => setAuthors(data || []));
@@ -44,6 +46,30 @@ export default function NovelEditor() {
   const generateSlug = (title: string) => title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const handleChange = (field: string, value: any) => { setForm(prev => { const next = { ...prev, [field]: value }; if (field === 'title' && (isNew || !prev.slug)) next.slug = generateSlug(value); return next; }); };
   const toggleCategory = (catId: string) => { setSelectedCategories(prev => prev.includes(catId) ? prev.filter(c => c !== catId) : [...prev, catId]); };
+
+  const handleGenerateSeo = async () => {
+    if (!form.title) { toast({ title: 'Erro', description: 'Preencha o título antes de gerar SEO.', variant: 'destructive' }); return; }
+    setGeneratingSeo(true);
+    try {
+      const catNames = categories.filter(c => selectedCategories.includes(c.id)).map(c => c.name).join(', ');
+      const { data, error } = await supabase.functions.invoke('generate-novel-seo', {
+        body: { title: form.title, synopsis: form.synopsis, categories: catNames, age_rating: form.age_rating },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setForm(prev => ({
+        ...prev,
+        meta_title: data.meta_title || prev.meta_title,
+        meta_description: data.meta_description || prev.meta_description,
+        meta_keywords: data.meta_keywords || prev.meta_keywords,
+      }));
+      toast({ title: 'SEO gerado com sucesso!' });
+    } catch (err: any) {
+      toast({ title: 'Erro ao gerar SEO', description: err.message, variant: 'destructive' });
+    } finally {
+      setGeneratingSeo(false);
+    }
+  };
 
   const handleSave = async () => {
     if (!form.title || !form.author_id) { toast({ title: 'Error', description: 'Please fill title and author.', variant: 'destructive' }); return; }
@@ -125,7 +151,7 @@ export default function NovelEditor() {
             <div className="flex gap-6"><div className="flex items-center gap-2"><Switch checked={form.is_featured} onCheckedChange={v => handleChange('is_featured', v)} /><Label>Featured</Label></div><div className="flex items-center gap-2"><Switch checked={form.is_new} onCheckedChange={v => handleChange('is_new', v)} /><Label>New</Label></div></div>
           </CardContent></Card>
 
-          <Card><CardHeader><CardTitle>Novel SEO</CardTitle></CardHeader><CardContent className="space-y-4">
+          <Card><CardHeader><div className="flex items-center justify-between"><CardTitle>Novel SEO</CardTitle><Button variant="outline" size="sm" onClick={handleGenerateSeo} disabled={generatingSeo}>{generatingSeo ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Gerando...</> : <><Sparkles className="w-4 h-4 mr-2" />Gerar SEO com IA</>}</Button></div></CardHeader><CardContent className="space-y-4">
             <div className="space-y-2"><Label>Meta Title</Label><Input value={form.meta_title} onChange={e => handleChange('meta_title', e.target.value)} placeholder={form.title} /></div>
             <div className="space-y-2"><Label>Meta Description</Label><Textarea value={form.meta_description} onChange={e => handleChange('meta_description', e.target.value)} rows={2} /></div>
             <div className="space-y-2"><Label>Keywords</Label><Input value={form.meta_keywords} onChange={e => handleChange('meta_keywords', e.target.value)} placeholder="novel, romance, fantasy" /></div>
