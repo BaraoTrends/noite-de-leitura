@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Link, useLocation, Navigate } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Users, MessageSquare, Image, Settings, Paintbrush,
-  Search as SearchIcon, Tag, Bell, BarChart3, Shield, Globe, ChevronLeft, LogOut, Menu,
+  Search as SearchIcon, Tag, Bell, BarChart3, Shield, Globe, ChevronLeft, LogOut, Menu, Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
