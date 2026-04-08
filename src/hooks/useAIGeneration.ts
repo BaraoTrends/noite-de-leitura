@@ -7,6 +7,7 @@ interface GenerateNovelParams {
   theme?: string;
   tone?: string;
   language?: string;
+  model?: string;
 }
 
 interface GenerateChaptersParams {
@@ -14,6 +15,7 @@ interface GenerateChaptersParams {
   novelSynopsis: string;
   chapterCount?: number;
   language?: string;
+  model?: string;
 }
 
 interface GenerateSingleChapterParams {
@@ -21,6 +23,7 @@ interface GenerateSingleChapterParams {
   novelSynopsis: string;
   chapterNumber?: number;
   language?: string;
+  model?: string;
 }
 
 export function useAIGeneration() {

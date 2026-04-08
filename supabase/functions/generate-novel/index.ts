@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { type, genre, theme, tone, language, chapterCount, novelTitle, novelSynopsis, chapterNumber } = await req.json();
+    const { type, genre, theme, tone, language, chapterCount, novelTitle, novelSynopsis, chapterNumber, model } = await req.json();
     const apiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!apiKey) throw new Error("LOVABLE_API_KEY not configured");
 
@@ -69,7 +69,7 @@ Write chapter ${chapterNumber || 1}. Return JSON:
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: model || "google/gemini-3-flash-preview",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
