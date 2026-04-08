@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Rating } from '@/components/novel/Rating';
 import { NovelCard } from '@/components/novel/NovelCard';
-import { getNovelById, novels } from '@/data/novels';
+import { useNovelById, useNovels } from '@/hooks/useNovels';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
 
@@ -22,12 +22,17 @@ const NovelDetail = () => {
   const [isImmersive, setIsImmersive] = useState(false);
   const { isFavorite, addFavorite, removeFavorite, addToHistory } = useStore();
   
-  const novel = getNovelById(id || '');
+  const { novel, loading } = useNovelById(id);
+  const { novels: allNovels } = useNovels();
   const favorite = novel ? isFavorite(novel.id) : false;
 
   useEffect(() => {
     if (novel) { addToHistory(novel.id); }
   }, [novel, addToHistory]);
+
+  if (loading) {
+    return <Layout><div className="container mx-auto px-4 py-20 text-center"><p className="text-muted-foreground">Loading...</p></div></Layout>;
+  }
 
   if (!novel) {
     return (
@@ -42,7 +47,7 @@ const NovelDetail = () => {
 
   const handleFavorite = () => { if (favorite) { removeFavorite(novel.id); } else { addFavorite(novel.id); } };
 
-  const relatedNovels = novels.filter((n) => n.id !== novel.id && n.categories.some((c) => novel.categories.includes(c))).slice(0, 4);
+  const relatedNovels = allNovels.filter((n) => n.id !== novel.id && n.categories.some((c) => novel.categories.includes(c))).slice(0, 4);
 
   const formatDate = (date: string) => new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
   const formatViews = (views: number) => { if (views >= 1000000) return `${(views / 1000000).toFixed(1)}M`; if (views >= 1000) return `${(views / 1000).toFixed(1)}K`; return views.toString(); };

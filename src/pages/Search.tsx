@@ -7,7 +7,7 @@ import { NovelCard } from '@/components/novel/NovelCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { searchNovels, novels } from '@/data/novels';
+import { useNovels } from '@/hooks/useNovels';
 import { CATEGORIES, AGE_RATINGS } from '@/types/novel';
 
 const Search = () => {
@@ -17,9 +17,16 @@ const Search = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedAgeRatings, setSelectedAgeRatings] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const { novels: allNovels, loading } = useNovels();
 
   const results = useMemo(() => {
-    let filtered = query ? searchNovels(query) : novels;
+    let filtered = query
+      ? allNovels.filter(n =>
+          n.title.toLowerCase().includes(query.toLowerCase()) ||
+          n.author.name.toLowerCase().includes(query.toLowerCase()) ||
+          n.synopsis.toLowerCase().includes(query.toLowerCase())
+        )
+      : allNovels;
     if (selectedCategories.length > 0) {
       filtered = filtered.filter((n) => n.categories.some((c) => selectedCategories.includes(c)));
     }
