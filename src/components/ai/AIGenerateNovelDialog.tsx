@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { AIModelSelect } from './AIModelSelect';
 
 const GENRES = ['Romance', 'Fantasia', 'Terror', 'Ficção Científica', 'Mistério', 'Aventura', 'Drama', 'Comédia'];
-const TONES = ['Dramático', 'Romântico', 'Sombrio', 'Leve', 'Suspense', 'Épico'];
+const TONES = ['Dramático', 'Romântico', 'Sombrio', 'Leve', 'Suspense', 'Épico', 'Adulto (+18)'];
 
 interface Props {
   onGenerated?: (data: { title: string; synopsis: string; content: string; tags?: string[]; age_rating?: string; read_time?: number }) => void;
