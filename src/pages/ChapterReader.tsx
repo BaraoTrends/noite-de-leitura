@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import DOMPurify from 'dompurify';
-import { ChevronLeft, ChevronRight, Minus, Plus, BookOpen, List } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Minus, Plus, BookOpen, List, Maximize2, X } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
@@ -13,6 +13,7 @@ const ChapterReader = () => {
   const navigate = useNavigate();
   const [fontSize, setFontSize] = useState(18);
   const [showChapterList, setShowChapterList] = useState(false);
+  const [isImmersive, setIsImmersive] = useState(false);
 
   const { chapter, loading: chapterLoading } = useChapterById(chapterId);
   const { novel, loading: novelLoading } = useNovelById(novelId);
@@ -68,6 +69,79 @@ const ChapterReader = () => {
     );
   }
 
+  if (isImmersive) {
+    return (
+      <div className="fixed inset-0 z-50 bg-background overflow-y-auto">
+        {/* Immersive top bar - auto-hides concept: always visible for simplicity */}
+        <div className="sticky top-0 z-50 bg-background/90 backdrop-blur border-b border-border/50">
+          <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="text-sm text-muted-foreground truncate">
+                Cap. {chapter.chapter_order} — {chapter.title}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setFontSize((s) => Math.max(14, s - 2))}>
+                <Minus className="w-4 h-4" />
+              </Button>
+              <span className="text-xs text-muted-foreground w-6 text-center">{fontSize}</span>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setFontSize((s) => Math.min(28, s + 2))}>
+                <Plus className="w-4 h-4" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsImmersive(false)}>
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Immersive content */}
+        <article className="max-w-3xl mx-auto px-6 sm:px-8 py-12" style={{ fontSize: `${fontSize}px` }}>
+          <h1 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-8">{chapter.title}</h1>
+          <div
+            className="text-foreground/90 leading-relaxed whitespace-pre-wrap"
+            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+          />
+        </article>
+
+        {/* Immersive bottom nav */}
+        <div className="sticky bottom-0 bg-background/90 backdrop-blur border-t border-border/50">
+          <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            {prevChapter ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate(`/novel/${novelId}/capitulo/${prevChapter.id}`)}
+                className="gap-1"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">Anterior</span>
+              </Button>
+            ) : <div />}
+            <span className="text-xs text-muted-foreground">
+              {chapter.chapter_order} / {chapters.length}
+            </span>
+            {nextChapter ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate(`/novel/${novelId}/capitulo/${nextChapter.id}`)}
+                className="gap-1"
+              >
+                <span className="hidden sm:inline">Próximo</span>
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            ) : (
+              <Button variant="ghost" size="sm" onClick={() => { setIsImmersive(false); navigate(`/novel/${novelId}`); }}>
+                Finalizar
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Layout>
       <SEOHead
@@ -103,6 +177,15 @@ const ChapterReader = () => {
             <span className="text-xs text-muted-foreground w-6 text-center">{fontSize}</span>
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setFontSize((s) => Math.min(28, s + 2))}>
               <Plus className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => setIsImmersive(true)}
+              title="Modo imersivo"
+            >
+              <Maximize2 className="w-4 h-4" />
             </Button>
           </div>
         </div>
