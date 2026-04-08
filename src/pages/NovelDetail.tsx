@@ -59,8 +59,6 @@ const NovelDetail = () => {
   }
 
   const handleFavorite = () => { if (favorite) { removeFavorite(novel.id); } else { addFavorite(novel.id); } };
-    return DOMPurify.sanitize(formattedContent, { ALLOWED_TAGS: ['br', 'h1', 'h2', 'p', 'strong', 'em', 'span'], ALLOWED_ATTR: ['class'] });
-  }, [novel]);
 
   if (isImmersive) {
     return (
