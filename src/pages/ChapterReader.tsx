@@ -7,10 +7,13 @@ import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
 import { useChapterById, useChaptersByNovel } from '@/hooks/useChapters';
 import { useNovelById } from '@/hooks/useNovels';
+import { useReadingProgress } from '@/hooks/useReadingProgress';
+import { useAuth } from '@/contexts/AuthContext';
 
 const ChapterReader = () => {
   const { novelId, chapterId } = useParams<{ novelId: string; chapterId: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [fontSize, setFontSize] = useState(18);
   const [showChapterList, setShowChapterList] = useState(false);
   const [isImmersive, setIsImmersive] = useState(false);
@@ -18,6 +21,8 @@ const ChapterReader = () => {
   const { chapter, loading: chapterLoading } = useChapterById(chapterId);
   const { novel, loading: novelLoading } = useNovelById(novelId);
   const { chapters, loading: chaptersLoading } = useChaptersByNovel(novelId);
+
+  useReadingProgress(user?.id, novelId, chapterId);
 
   const currentIndex = useMemo(
     () => chapters.findIndex((c) => c.id === chapterId),

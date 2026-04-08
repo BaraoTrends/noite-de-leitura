@@ -1,0 +1,1 @@
+ALTER TABLE public.reading_history ADD CONSTRAINT reading_history_user_novel_unique UNIQUE (user_id, novel_id);
