@@ -21,6 +21,7 @@ const STYLE_PRESETS = [
   { value: 'scifi', label: 'Ficção Científica', prompt: 'futuristic, sci-fi, neon lights, cyberpunk aesthetic' },
   { value: 'literary', label: 'Literário', prompt: 'minimalist, artistic, abstract, sophisticated composition' },
   { value: 'erotic', label: 'Sensual', prompt: 'sensual, intimate atmosphere, warm golden lighting, artistic and tasteful' },
+  { value: 'mature_romance', label: 'Romance Maduro', prompt: 'mature romance, passionate embrace, dramatic cinematic lighting, elegant and tasteful, warm rich tones, artistic composition' },
   { value: 'thriller', label: 'Suspense', prompt: 'noir style, suspenseful, dramatic contrast, mysterious atmosphere' },
   { value: 'custom', label: 'Personalizado', prompt: '' },
 ];
