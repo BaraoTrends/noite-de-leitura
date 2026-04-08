@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
+import { useChaptersByNovel } from '@/hooks/useChapters';
 import { motion } from 'framer-motion';
 import DOMPurify from 'dompurify';
 import { 
@@ -26,6 +27,7 @@ const NovelDetail = () => {
   
   const { novel, loading } = useNovelById(id);
   const { novels: allNovels } = useNovels();
+  const { chapters } = useChaptersByNovel(id);
   const favorite = novel ? isFavorite(novel.id) : false;
   const relatedNovels = allNovels.filter((n) => novel && n.id !== novel.id && n.categories.some((c) => novel.categories.includes(c))).slice(0, 4);
   const authorNovelCount = novel ? allNovels.filter((n) => n.author.id === novel.author.id).length : 0;
@@ -190,6 +192,33 @@ const NovelDetail = () => {
               <Button variant="outline" onClick={() => setIsImmersive(true)}>Reading Mode</Button>
             </div>
             <PromoSlot variant="inline" className="mb-6" />
+
+            {/* Chapters list */}
+            {chapters.length > 0 && (
+              <div className="bg-card rounded-xl p-6 border border-border mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <BookOpen className="w-5 h-5 text-primary" />
+                  <h2 className="font-display text-xl font-bold text-foreground">
+                    Capítulos ({chapters.length})
+                  </h2>
+                </div>
+                <div className="space-y-1 max-h-80 overflow-y-auto">
+                  {chapters.map((ch) => (
+                    <Link
+                      key={ch.id}
+                      to={`/novel/${novel.id}/capitulo/${ch.id}`}
+                      className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent/50 transition-colors group"
+                    >
+                      <span className="text-sm text-foreground group-hover:text-primary transition-colors">
+                        Cap. {ch.chapter_order} — {ch.title}
+                      </span>
+                      <ChevronLeft className="w-4 h-4 text-muted-foreground rotate-180 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <article className="prose prose-invert prose-lg max-w-none bg-card rounded-xl p-8 border border-border" style={{ fontSize: `${fontSize}px` }}>
               <div className="text-foreground/90 leading-relaxed whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
             </article>
