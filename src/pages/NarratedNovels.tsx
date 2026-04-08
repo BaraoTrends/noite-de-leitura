@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Youtube, ExternalLink, Play } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { Button } from '@/components/ui/button';
 import { useNovels } from '@/hooks/useNovels';
@@ -20,6 +21,7 @@ const NarratedNovels = () => {
 
   return (
     <Layout>
+      <SEOHead title="Narrated Novels" description="Listen to narrated novels on YouTube. Enjoy stories with professional narration." canonicalUrl="/narradas" keywords="narrated novels, audiobooks, listen stories" />
       <section className="relative py-20 bg-gradient-hero overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1920')] bg-cover bg-center opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />

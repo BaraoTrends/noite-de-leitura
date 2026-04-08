@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search as SearchIcon, Filter, X } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -58,6 +59,7 @@ const Search = () => {
 
   return (
     <Layout>
+      <SEOHead title="Search Novels" description="Search and find novels by title, author, category or tags." canonicalUrl="/busca" noindex={true} />
       <div className="container mx-auto px-4 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto mb-12">
           <h1 className="font-display text-4xl font-bold text-foreground text-center mb-8">Search Novels</h1>

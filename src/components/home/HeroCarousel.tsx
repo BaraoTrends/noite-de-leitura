@@ -162,7 +162,8 @@ export function HeroCarousel({ novels }: HeroCarouselProps) {
                   <div className="w-72 h-96 rounded-2xl overflow-hidden card-shadow border-2 border-gold/30">
                     <img
                       src={currentNovel.thumbnail}
-                      alt={currentNovel.title}
+                      alt={`Cover of ${currentNovel.title}`}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   </div>

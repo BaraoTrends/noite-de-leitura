@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Flame, Crown } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { useNovels } from '@/hooks/useNovels';
 import { PaginationControls } from '@/components/ui/pagination-controls';
@@ -29,6 +30,7 @@ const Popular = () => {
 
   return (
     <Layout>
+      <SEOHead title="Popular Novels" description="Discover the most popular and highest rated novels. Trending stories loved by readers." canonicalUrl="/populares" keywords="popular novels, trending stories, best rated" />
       <div className="container mx-auto px-4 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="font-display text-4xl font-bold text-foreground mb-4">Popular Novels</h1>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Calendar } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { useNovels } from '@/hooks/useNovels';
 import { PaginationControls } from '@/components/ui/pagination-controls';
@@ -33,6 +34,7 @@ const NewReleases = () => {
 
   return (
     <Layout>
+      <SEOHead title="New Releases" description="Check out the latest novels and stories published on our platform." canonicalUrl="/novos" keywords="new novels, latest releases, new stories" />
       <div className="container mx-auto px-4 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="font-display text-4xl font-bold text-foreground mb-4">New Releases</h1>

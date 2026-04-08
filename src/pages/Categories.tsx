@@ -5,6 +5,7 @@ import {
   AlertTriangle, Skull, Search, Ghost, Laugh, Sword, History
 } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
+import { SEOHead } from '@/components/SEOHead';
 import { useNovels } from '@/hooks/useNovels';
 import { CATEGORIES } from '@/types/novel';
 
@@ -38,6 +39,7 @@ const Categories = () => {
 
   return (
     <Layout>
+      <SEOHead title="Categories" description="Explore novel categories: romance, fantasy, suspense, drama and more." canonicalUrl="/categorias" keywords="novel categories, romance, fantasy, suspense, drama" />
       <div className="container mx-auto px-4 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="font-display text-4xl font-bold text-foreground mb-4">Categories</h1>

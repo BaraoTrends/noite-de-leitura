@@ -45,7 +45,8 @@ export function NovelCard({ novel, index = 0, variant = 'default' }: NovelCardPr
           <div className="w-12 h-16 rounded overflow-hidden flex-shrink-0">
             <img
               src={novel.thumbnail}
-              alt={novel.title}
+              alt={`Cover of ${novel.title}`}
+              loading="lazy"
               className="w-full h-full object-cover"
             />
           </div>
@@ -89,6 +90,7 @@ export function NovelCard({ novel, index = 0, variant = 'default' }: NovelCardPr
           <img
             src={novel.thumbnail}
             alt={novel.title}
+            loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           
