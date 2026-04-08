@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Rating } from '@/components/novel/Rating';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { PromoSlot } from '@/components/PromoSlot';
+import { SEOHead } from '@/components/SEOHead';
 import { useNovelById, useNovels } from '@/hooks/useNovels';
 import { useStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
@@ -78,8 +79,29 @@ const NovelDetail = () => {
     );
   }
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: novel.title,
+    description: novel.synopsis,
+    image: novel.thumbnail,
+    author: { '@type': 'Person', name: novel.author.name },
+    datePublished: novel.publishDate,
+    publisher: { '@type': 'Organization', name: 'Erotics Novels' },
+    mainEntityOfPage: `https://novelbraril.lovable.app/novel/${novel.id}`,
+  };
+
   return (
     <Layout>
+      <SEOHead
+        title={novel.title}
+        description={novel.synopsis.substring(0, 155)}
+        canonicalUrl={`/novel/${novel.id}`}
+        ogType="article"
+        ogImage={novel.thumbnail}
+        keywords={novel.tags.join(', ')}
+        jsonLd={articleJsonLd}
+      />
       <section className="relative py-12 bg-gradient-hero">
         <div className="absolute inset-0">
           <img src={novel.thumbnail} alt={novel.title} className="w-full h-full object-cover opacity-20 blur-md" />

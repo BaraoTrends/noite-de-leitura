@@ -89,7 +89,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2024 Erotics Novels. All rights reserved.
+            © {new Date().getFullYear()} Erotics Novels. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground flex items-center gap-1">
             Made with <Heart className="w-4 h-4 text-destructive fill-destructive" /> for passionate readers
