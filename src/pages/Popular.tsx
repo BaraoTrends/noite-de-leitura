@@ -54,6 +54,8 @@ const Popular = () => {
           </div>
         </section>
 
+        <PromoSlot variant="inline" className="mb-16" />
+
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <Crown className="w-6 h-6 text-gold" />

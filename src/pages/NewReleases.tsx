@@ -54,6 +54,8 @@ const NewReleases = () => {
           </section>
         )}
 
+        <PromoSlot variant="inline" className="mb-16" />
+
         <section>
           <div className="flex items-center gap-3 mb-6">
             <Calendar className="w-6 h-6 text-muted-foreground" />
