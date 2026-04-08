@@ -79,17 +79,39 @@ const NovelDetail = () => {
     );
   }
 
-  const articleJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: novel.title,
-    description: novel.synopsis,
-    image: novel.thumbnail,
-    author: { '@type': 'Person', name: novel.author.name },
-    datePublished: novel.publishDate,
-    publisher: { '@type': 'Organization', name: 'Erotics Novels' },
-    mainEntityOfPage: `https://novelbraril.lovable.app/novel/${novel.id}`,
-  };
+  const novelJsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: novel.title,
+      description: novel.synopsis,
+      image: novel.thumbnail,
+      author: { '@type': 'Person', name: novel.author.name, url: `https://novelbraril.lovable.app/autor/${novel.author.id}` },
+      datePublished: novel.publishDate,
+      dateModified: novel.publishDate,
+      publisher: { '@type': 'Organization', name: 'Erotics Novels', url: 'https://novelbraril.lovable.app' },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `https://novelbraril.lovable.app/novel/${novel.id}` },
+      genre: novel.categories,
+      keywords: novel.tags.join(', '),
+      wordCount: novel.content.split(/\s+/).length,
+      timeRequired: `PT${novel.readTime}M`,
+      interactionStatistic: [
+        { '@type': 'InteractionCounter', interactionType: 'https://schema.org/ReadAction', userInteractionCount: novel.views },
+        { '@type': 'InteractionCounter', interactionType: 'https://schema.org/CommentAction', userInteractionCount: novel.commentsCount || 0 },
+      ],
+      aggregateRating: novel.ratingCount > 0 ? { '@type': 'AggregateRating', ratingValue: novel.rating, bestRating: 5, worstRating: 1, ratingCount: novel.ratingCount } : undefined,
+      contentRating: novel.ageRating,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://novelbraril.lovable.app' },
+        ...(novel.categories[0] ? [{ '@type': 'ListItem', position: 2, name: novel.categories[0], item: `https://novelbraril.lovable.app/categoria/${encodeURIComponent(novel.categories[0])}` }] : []),
+        { '@type': 'ListItem', position: novel.categories[0] ? 3 : 2, name: novel.title },
+      ],
+    },
+  ];
 
   return (
     <Layout>
