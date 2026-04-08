@@ -14,7 +14,7 @@ interface SEOHeadProps {
 const SITE_NAME = 'Erotics Novels';
 const DEFAULT_DESCRIPTION = 'Your favorite platform to read novels and stories online. Fantasy, romance, suspense, drama and more. Read for free!';
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&h=630&fit=crop';
-const SITE_URL = 'https://novelbraril.lovable.app';
+const SITE_URL = 'https://eroticsnovels.com';
 
 export function SEOHead({
   title,

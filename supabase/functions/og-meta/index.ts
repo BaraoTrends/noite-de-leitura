@@ -4,7 +4,7 @@ const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 const SITE_NAME = "Erotics Novels";
-const BASE_URL = "https://novelbraril.lovable.app";
+const BASE_URL = "https://eroticsnovels.com";
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&h=630&fit=crop";
 
 const CRAWLER_USER_AGENTS = [
