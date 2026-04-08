@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-const BASE_URL = "https://novelbraril.lovable.app";
+const BASE_URL = "https://eroticsnovels.com";
 
 const STATIC_PAGES = [
   { loc: "/", changefreq: "daily", priority: "1.0" },

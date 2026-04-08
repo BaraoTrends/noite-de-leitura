@@ -41,11 +41,11 @@ const Index = () => {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Erotics Novels',
-    url: 'https://novelbraril.lovable.app',
+    url: 'https://eroticsnovels.com',
     description: 'Your favorite platform to read novels and stories online.',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://novelbraril.lovable.app/busca?q={search_term_string}',
+      target: 'https://eroticsnovels.com/busca?q={search_term_string}',
       'query-input': 'required name=search_term_string',
     },
   };
