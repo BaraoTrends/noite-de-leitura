@@ -21,6 +21,7 @@ const navItems = [
   { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
   { label: 'Notifications', href: '/admin/notifications', icon: Bell },
   { label: 'Visual Edits', href: '/admin/visual-edits', icon: Paintbrush },
+  { label: 'IA Histórico', href: '/admin/ai-history', icon: Sparkles },
   { label: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
