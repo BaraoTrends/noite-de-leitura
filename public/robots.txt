@@ -15,4 +15,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /auth
 
-Sitemap: https://novelbraril.lovable.app/sitemap.xml
+Sitemap: https://xgaafsrbhsdmjsazaszf.supabase.co/functions/v1/sitemap
