@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { Button } from '@/components/ui/button';
-import { getNovelsByCategory } from '@/data/novels';
+import { useNovels } from '@/hooks/useNovels';
 import { CATEGORIES } from '@/types/novel';
 import { cn } from '@/lib/utils';
 
@@ -13,8 +13,19 @@ const Category = () => {
   const { category } = useParams<{ category: string }>();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const decodedCategory = decodeURIComponent(category || '');
-  const novels = getNovelsByCategory(decodedCategory);
+  const { novels: allNovels, loading } = useNovels();
+  const novels = allNovels.filter((novel) => novel.categories.includes(decodedCategory));
   const isValidCategory = CATEGORIES.includes(decodedCategory as any);
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-muted-foreground">Loading novels...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   if (!isValidCategory) {
     return (

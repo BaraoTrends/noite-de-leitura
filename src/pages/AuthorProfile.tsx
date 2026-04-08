@@ -4,18 +4,33 @@ import { ChevronLeft, BookOpen, Eye, Users, Twitter, Instagram, Globe } from 'lu
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { NovelCard } from '@/components/novel/NovelCard';
-import { authors, getNovelsByAuthor } from '@/data/novels';
+import { useAuthorById, useNovels } from '@/hooks/useNovels';
 
 const AuthorProfile = () => {
   const { id } = useParams<{ id: string }>();
-  const author = authors.find((a) => a.id === id);
-  const authorNovels = author ? getNovelsByAuthor(author.id) : [];
+  const { author, loading: authorLoading } = useAuthorById(id);
+  const { novels: authorNovels, loading: novelsLoading } = useNovels({ authorId: id });
+  const authorStats = {
+    novelsCount: authorNovels.length,
+    totalViews: authorNovels.reduce((sum, novel) => sum + novel.views, 0),
+    followers: author?.followers || 0,
+  };
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
     if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
     return num.toString();
   };
+
+  if (authorLoading || novelsLoading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-muted-foreground">Loading author...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   if (!author) {
     return (
@@ -43,9 +58,9 @@ const AuthorProfile = () => {
               <h1 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-2">{author.name}</h1>
               <p className="text-muted-foreground mb-6 max-w-2xl">{author.bio}</p>
               <div className="flex flex-wrap justify-center md:justify-start gap-6 mb-6">
-                <div className="flex items-center gap-2"><BookOpen className="w-5 h-5 text-primary" /><span className="text-foreground font-medium">{author.novelsCount}</span><span className="text-muted-foreground">novels</span></div>
-                <div className="flex items-center gap-2"><Eye className="w-5 h-5 text-muted-foreground" /><span className="text-foreground font-medium">{formatNumber(author.totalViews || 0)}</span><span className="text-muted-foreground">views</span></div>
-                <div className="flex items-center gap-2"><Users className="w-5 h-5 text-muted-foreground" /><span className="text-foreground font-medium">{formatNumber(author.followers || 0)}</span><span className="text-muted-foreground">followers</span></div>
+                <div className="flex items-center gap-2"><BookOpen className="w-5 h-5 text-primary" /><span className="text-foreground font-medium">{authorStats.novelsCount}</span><span className="text-muted-foreground">novels</span></div>
+                <div className="flex items-center gap-2"><Eye className="w-5 h-5 text-muted-foreground" /><span className="text-foreground font-medium">{formatNumber(authorStats.totalViews)}</span><span className="text-muted-foreground">views</span></div>
+                <div className="flex items-center gap-2"><Users className="w-5 h-5 text-muted-foreground" /><span className="text-foreground font-medium">{formatNumber(authorStats.followers)}</span><span className="text-muted-foreground">followers</span></div>
               </div>
               <div className="flex flex-wrap justify-center md:justify-start gap-3">
                 <Button variant="gold"><Users className="w-4 h-4 mr-2" />Follow</Button>

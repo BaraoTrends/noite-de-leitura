@@ -26,6 +26,7 @@ const NovelDetail = () => {
   const { novels: allNovels } = useNovels();
   const favorite = novel ? isFavorite(novel.id) : false;
   const relatedNovels = allNovels.filter((n) => novel && n.id !== novel.id && n.categories.some((c) => novel.categories.includes(c))).slice(0, 4);
+  const authorNovelCount = novel ? allNovels.filter((n) => n.author.id === novel.author.id).length : 0;
 
   const sanitizedContent = useMemo(() => {
     if (!novel) return '';
@@ -181,7 +182,7 @@ const NovelDetail = () => {
                     <div>
                       <p className="text-sm text-muted-foreground">Author</p>
                       <h4 className="font-display font-semibold text-foreground">{novel.author.name}</h4>
-                      <p className="text-sm text-muted-foreground">{novel.author.novelsCount} novels</p>
+                       <p className="text-sm text-muted-foreground">{authorNovelCount} novels</p>
                     </div>
                   </div>
                   <Button variant="outline" className="w-full mt-4"><User className="w-4 h-4 mr-2" />View Profile</Button>

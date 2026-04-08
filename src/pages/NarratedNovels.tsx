@@ -3,10 +3,20 @@ import { Youtube, ExternalLink, Play } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { Button } from '@/components/ui/button';
-import { getNovelsWithVideo } from '@/data/novels';
+import { useNovels } from '@/hooks/useNovels';
 
 const NarratedNovels = () => {
-  const novelsWithVideo = getNovelsWithVideo();
+  const { novels: novelsWithVideo, loading } = useNovels({ onlyWithVideo: true });
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-muted-foreground">Loading narrated novels...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

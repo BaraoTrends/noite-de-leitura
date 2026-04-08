@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search as SearchIcon, Filter, X } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
@@ -7,8 +7,11 @@ import { NovelCard } from '@/components/novel/NovelCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import { PaginationControls } from '@/components/ui/pagination-controls';
 import { useNovels } from '@/hooks/useNovels';
 import { CATEGORIES, AGE_RATINGS } from '@/types/novel';
+
+const RESULTS_PER_PAGE = 9;
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,6 +20,7 @@ const Search = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedAgeRatings, setSelectedAgeRatings] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const { novels: allNovels, loading } = useNovels();
 
   const results = useMemo(() => {
@@ -34,9 +38,19 @@ const Search = () => {
       filtered = filtered.filter((n) => selectedAgeRatings.includes(n.ageRating));
     }
     return filtered;
+  }, [allNovels, query, selectedCategories, selectedAgeRatings]);
+
+  useEffect(() => {
+    setCurrentPage(1);
   }, [query, selectedCategories, selectedAgeRatings]);
 
-  const handleSearch = (e: React.FormEvent) => { e.preventDefault(); setSearchParams({ q: query }); };
+  const totalPages = Math.max(1, Math.ceil(results.length / RESULTS_PER_PAGE));
+  const paginatedResults = useMemo(() => {
+    const start = (currentPage - 1) * RESULTS_PER_PAGE;
+    return results.slice(start, start + RESULTS_PER_PAGE);
+  }, [currentPage, results]);
+
+  const handleSearch = (e: React.FormEvent) => { e.preventDefault(); setCurrentPage(1); setSearchParams(query ? { q: query } : {}); };
   const toggleCategory = (category: string) => { setSelectedCategories((prev) => prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]); };
   const toggleAgeRating = (rating: string) => { setSelectedAgeRatings((prev) => prev.includes(rating) ? prev.filter((r) => r !== rating) : [...prev, rating]); };
   const clearFilters = () => { setSelectedCategories([]); setSelectedAgeRatings([]); };
@@ -134,18 +148,25 @@ const Search = () => {
                 {query && ` for "${query}"`}
               </p>
             </div>
-            {results.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-20">
+                <p className="text-muted-foreground">Loading novels...</p>
+              </div>
+            ) : results.length === 0 ? (
               <div className="text-center py-20">
                 <SearchIcon className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" />
                 <h3 className="font-display text-xl text-foreground mb-2">No results found</h3>
                 <p className="text-muted-foreground">Try searching with different keywords or adjust your filters.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {results.map((novel, index) => (
-                  <NovelCard key={novel.id} novel={novel} index={index} />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {paginatedResults.map((novel, index) => (
+                    <NovelCard key={novel.id} novel={novel} index={index} />
+                  ))}
+                </div>
+                <PaginationControls className="mt-10" page={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+              </>
             )}
           </div>
         </div>
