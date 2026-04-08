@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Sparkles, Eye, Loader2 } from 'lucide-react';
+import { Sparkles, Eye, Loader2, RotateCcw } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { AdminLayout } from '@/components/admin/AdminLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { supabase } from '@/integrations/supabase/client';
+import { useAIGeneration } from '@/hooks/useAIGeneration';
+import { useToast } from '@/hooks/use-toast';
 
 interface AIGeneration {
   id: string;
@@ -28,8 +31,16 @@ export default function AdminAIHistory() {
   const [generations, setGenerations] = useState<AIGeneration[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<AIGeneration | null>(null);
+  const { generateNovel, generateChapters, generateSingleChapter, loading: generating } = useAIGeneration();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    loadGenerations();
+  }, []);
+
+  const loadGenerations = () => {
+    setLoading(true);
     supabase
       .from('ai_generations')
       .select('*')
@@ -39,7 +50,43 @@ export default function AdminAIHistory() {
         setGenerations((data as any[]) || []);
         setLoading(false);
       });
-  }, []);
+  };
+
+  const handleReuse = async (gen: AIGeneration) => {
+    const params = gen.prompt_params;
+    let result: any = null;
+
+    if (gen.generation_type === 'novel') {
+      result = await generateNovel({
+        genre: params.genre,
+        theme: params.theme,
+        tone: params.tone,
+        language: params.language,
+        model: params.model || gen.model,
+      });
+    } else if (gen.generation_type === 'chapters') {
+      result = await generateChapters({
+        novelTitle: params.novelTitle,
+        novelSynopsis: params.novelSynopsis,
+        chapterCount: params.chapterCount,
+        language: params.language,
+        model: params.model || gen.model,
+      });
+    } else if (gen.generation_type === 'single_chapter') {
+      result = await generateSingleChapter({
+        novelTitle: params.novelTitle,
+        novelSynopsis: params.novelSynopsis,
+        chapterNumber: params.chapterNumber,
+        language: params.language,
+        model: params.model || gen.model,
+      });
+    }
+
+    if (result && !result.error && !result.raw) {
+      toast({ title: 'Geração concluída!', description: 'Uma nova geração foi criada com os mesmos parâmetros.' });
+      loadGenerations();
+    }
+  };
 
   return (
     <AdminLayout>
@@ -84,9 +131,20 @@ export default function AdminAIHistory() {
                       {new Date(gen.created_at).toLocaleString('pt-BR')}
                     </p>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => setSelected(gen)}>
-                    <Eye className="w-4 h-4" />
-                  </Button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      title="Reutilizar parâmetros"
+                      disabled={generating}
+                      onClick={() => handleReuse(gen)}
+                    >
+                      {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
+                    </Button>
+                    <Button variant="ghost" size="icon" title="Ver detalhes" onClick={() => setSelected(gen)}>
+                      <Eye className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -122,6 +180,14 @@ export default function AdminAIHistory() {
                   {JSON.stringify(selected.result_data, null, 2)}
                 </pre>
               </div>
+              <Button
+                className="w-full gap-2"
+                disabled={generating}
+                onClick={() => { handleReuse(selected); setSelected(null); }}
+              >
+                {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
+                Reutilizar estes parâmetros
+              </Button>
             </div>
           )}
         </DialogContent>
