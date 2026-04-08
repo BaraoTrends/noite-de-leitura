@@ -33,6 +33,7 @@ import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminVisualEdits from "./pages/admin/AdminVisualEdits";
+import AdminAIHistory from "./pages/admin/AdminAIHistory";
 
 const queryClient = new QueryClient();
 
