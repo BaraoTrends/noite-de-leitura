@@ -145,9 +145,11 @@ const NovelDetail = () => {
               </div>
               <Button variant="outline" onClick={() => setIsImmersive(true)}>Reading Mode</Button>
             </div>
+            <PromoSlot variant="inline" className="mb-6" />
             <article className="prose prose-invert prose-lg max-w-none bg-card rounded-xl p-8 border border-border" style={{ fontSize: `${fontSize}px` }}>
               <div className="text-foreground/90 leading-relaxed whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
             </article>
+            <PromoSlot variant="horizontal" className="mt-8" />
             <div className="mt-12">
               <div className="flex items-center gap-3 mb-6">
                 <MessageCircle className="w-6 h-6 text-muted-foreground" />
