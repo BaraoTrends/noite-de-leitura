@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 const About = () => {
   return (
     <Layout>
+      <SEOHead title="About Us" description="Learn about Erotics Novels, our mission and the team behind the platform." canonicalUrl="/sobre" keywords="about, our story, novel platform" />
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4">
           <motion.div
