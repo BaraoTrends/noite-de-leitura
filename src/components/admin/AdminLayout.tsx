@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Link, useLocation, Navigate } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Users, MessageSquare, Image, Settings, Paintbrush,
-  Search as SearchIcon, Tag, Bell, BarChart3, Shield, Globe, ChevronLeft, LogOut, Menu,
+  Search as SearchIcon, Tag, Bell, BarChart3, Shield, Globe, ChevronLeft, LogOut, Menu, Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
@@ -21,6 +21,7 @@ const navItems = [
   { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
   { label: 'Notifications', href: '/admin/notifications', icon: Bell },
   { label: 'Visual Edits', href: '/admin/visual-edits', icon: Paintbrush },
+  { label: 'IA Histórico', href: '/admin/ai-history', icon: Sparkles },
   { label: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 

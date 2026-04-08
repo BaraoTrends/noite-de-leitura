@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_generations: {
+        Row: {
+          created_at: string
+          generation_type: string
+          id: string
+          model: string
+          novel_id: string | null
+          prompt_params: Json | null
+          result_data: Json | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          generation_type?: string
+          id?: string
+          model: string
+          novel_id?: string | null
+          prompt_params?: Json | null
+          result_data?: Json | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          generation_type?: string
+          id?: string
+          model?: string
+          novel_id?: string | null
+          prompt_params?: Json | null
+          result_data?: Json | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_generations_novel_id_fkey"
+            columns: ["novel_id"]
+            isOneToOne: false
+            referencedRelation: "novels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       authors: {
         Row: {
           avatar_url: string | null
