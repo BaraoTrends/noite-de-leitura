@@ -5,6 +5,7 @@ import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
 import { useNovels } from '@/hooks/useNovels';
 import { PaginationControls } from '@/components/ui/pagination-controls';
+import { PromoSlot } from '@/components/PromoSlot';
 
 const Popular = () => {
   const [trendingPage, setTrendingPage] = useState(1);

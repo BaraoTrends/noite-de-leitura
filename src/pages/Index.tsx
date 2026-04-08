@@ -10,6 +10,7 @@ import { YouTubeWidget } from '@/components/home/YouTubeWidget';
 import { useNovels } from '@/hooks/useNovels';
 import { useStore } from '@/store/useStore';
 import { Sparkles, TrendingUp, Clock } from 'lucide-react';
+import { PromoSlot } from '@/components/PromoSlot';
 
 const Index = () => {
   const { selectedCategories } = useStore();
