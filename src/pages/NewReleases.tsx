@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { Sparkles, Calendar } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
-import { novels } from '@/data/novels';
+import { useNovels } from '@/hooks/useNovels';
 
 const NewReleases = () => {
-  const newNovels = novels.filter((n) => n.isNew);
+  const { novels, newNovels, loading } = useNovels();
   const recentNovels = [...novels]
     .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
     .slice(0, 20);

@@ -2,10 +2,11 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Flame, Crown } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { NovelCard } from '@/components/novel/NovelCard';
-import { getTopNovels, novels } from '@/data/novels';
+import { useNovels } from '@/hooks/useNovels';
 
 const Popular = () => {
-  const topNovels = getTopNovels(20);
+  const { novels, loading } = useNovels();
+  const topNovels = [...novels].sort((a, b) => b.views - a.views).slice(0, 20);
   const highestRated = [...novels].sort((a, b) => b.rating - a.rating).slice(0, 10);
 
   return (
