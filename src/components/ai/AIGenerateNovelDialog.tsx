@@ -34,8 +34,8 @@ export function AIGenerateNovelDialog({ onGenerated, triggerVariant = 'button' }
   const [model, setModel] = useState('google/gemini-3-flash-preview');
   const [currentStep, setCurrentStep] = useState(-1);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const stepTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const stepTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const { generateNovel, loading } = useAIGeneration();
   const { toast } = useToast();
 
