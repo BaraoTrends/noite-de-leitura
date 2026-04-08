@@ -11,6 +11,8 @@ import { Switch } from '@/components/ui/switch';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { AIGenerateNovelDialog } from '@/components/ai/AIGenerateNovelDialog';
+import { AIGenerateChaptersDialog } from '@/components/ai/AIGenerateChaptersDialog';
 
 const AGE_RATINGS = ['Livre', '+12', '+16', '+18'];
 const STATUSES = ['draft', 'published', 'archived'];
@@ -64,6 +66,37 @@ export default function NovelEditor() {
         <div className="flex items-center gap-4">
           <Button variant="ghost" onClick={() => navigate('/admin/novels')}><ArrowLeft className="w-4 h-4 mr-2" />Back</Button>
           <h1 className="font-display text-2xl text-foreground">{isNew ? 'New Novel' : 'Edit Novel'}</h1>
+          <div className="ml-auto flex gap-2">
+            <AIGenerateNovelDialog onGenerated={(data) => {
+              setForm(prev => ({
+                ...prev,
+                title: data.title,
+                slug: generateSlug(data.title),
+                synopsis: data.synopsis,
+                content: data.content,
+                age_rating: data.age_rating || prev.age_rating,
+                read_time: data.read_time || prev.read_time,
+              }));
+            }} />
+            {!isNew && id && (
+              <AIGenerateChaptersDialog
+                novelTitle={form.title}
+                novelSynopsis={form.synopsis}
+                novelId={id}
+                onGenerated={async (chapters) => {
+                  for (const ch of chapters) {
+                    await supabase.from('chapters').insert({
+                      novel_id: id,
+                      title: ch.title,
+                      chapter_order: ch.chapter_order,
+                      content: ch.content,
+                      status: 'draft',
+                    });
+                  }
+                }}
+              />
+            )}
+          </div>
         </div>
         <div className="grid gap-6">
           <Card><CardHeader><CardTitle>Basic Information</CardTitle></CardHeader><CardContent className="space-y-4">
