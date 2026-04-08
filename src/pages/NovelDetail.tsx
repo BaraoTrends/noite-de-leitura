@@ -122,7 +122,7 @@ const NovelDetail = () => {
         ogType="article"
         ogImage={novel.thumbnail}
         keywords={novel.tags.join(', ')}
-        jsonLd={articleJsonLd}
+        jsonLd={novelJsonLd}
       />
       <section className="relative py-12 bg-gradient-hero">
         <div className="absolute inset-0">
