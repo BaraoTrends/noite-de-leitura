@@ -148,10 +148,14 @@ export function useNovelById(id: string | undefined) {
 
     const fetchNovel = async () => {
       setLoading(true);
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+      const filter = isUuid
+        ? `id.eq.${id},slug.eq.${id}`
+        : `slug.eq.${id}`;
       const { data, error } = await supabase
         .from('novels')
         .select('*, authors(*), novel_categories(category_id, categories(name)), novel_tags(tag_id, tags(name))')
-        .eq('id', id)
+        .or(filter)
         .single();
 
       if (!error && data) {
