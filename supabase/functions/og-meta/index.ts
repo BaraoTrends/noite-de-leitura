@@ -227,12 +227,17 @@ Deno.serve(async (req) => {
     const novelMatch = path.match(/^\/novel\/(.+)$/);
     if (novelMatch) {
       const identifier = novelMatch[1];
-      const { data: novel } = await supabase
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(identifier);
+      let novelQuery = supabase
         .from("novels")
         .select("*, authors(name, bio, id), novel_categories(category_id, categories(name)), novel_tags(tag_id, tags(name))")
-        .or(`id.eq.${identifier},slug.eq.${identifier}`)
-        .eq("status", "published")
-        .single();
+        .eq("status", "published");
+      if (isUuid) {
+        novelQuery = novelQuery.eq("id", identifier);
+      } else {
+        novelQuery = novelQuery.eq("slug", identifier);
+      }
+      const { data: novel } = await novelQuery.single();
 
       if (novel) {
         const authorName = (novel as any).authors?.name || "Desconhecido";
