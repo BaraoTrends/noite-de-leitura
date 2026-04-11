@@ -329,15 +329,16 @@ Deno.serve(async (req) => {
     }
 
     // ===== CHAPTER READER =====
-    const chapterMatch = path.match(/^\/novel\/(.+)\/capitulo\/(.+)$/);
+    const chapterMatch = path.match(/^\/novel\/([^/]+)\/capitulo\/([^/]+)$/);
     if (chapterMatch) {
       const novelIdentifier = chapterMatch[1];
       const chapterId = chapterMatch[2];
+      const isChapterUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(chapterId);
 
       const { data: chapter } = await supabase
         .from("chapters")
         .select("*, novels(title, slug, id, thumbnail_url, synopsis, authors(name, id))")
-        .eq("id", chapterId)
+        .eq(isChapterUuid ? "id" : "slug", chapterId)
         .eq("status", "published")
         .single();
 
