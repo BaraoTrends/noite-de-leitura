@@ -224,7 +224,7 @@ Deno.serve(async (req) => {
     }
 
     // ===== NOVEL DETAIL =====
-    const novelMatch = path.match(/^\/novel\/(.+)$/);
+    const novelMatch = path.match(/^\/novel\/([^/]+)$/);
     if (novelMatch) {
       const identifier = novelMatch[1];
       const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(identifier);
