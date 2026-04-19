@@ -13,11 +13,10 @@ Deno.serve(async (req) => {
     const { chapter_id } = await req.json();
     if (!chapter_id) throw new Error("chapter_id required");
 
-    const authHeader = req.headers.get("Authorization");
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-      authHeader ? { global: { headers: { Authorization: authHeader } } } : undefined
+      { auth: { persistSession: false } }
     );
 
     // Load chapter
@@ -110,7 +109,8 @@ Return JSON ONLY:
       updated_at: new Date().toISOString(),
     };
 
-    const { error: upErr } = await supabase
+    console.log("Updating chapter", chapter_id, "service_key_present:", !!Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"));
+    const { data: updated, error: upErr, count } = await supabase
       .from("chapters")
       .update({
         meta_title: fix.meta_title?.slice(0, 70),
@@ -118,8 +118,11 @@ Return JSON ONLY:
         meta_keywords: fix.meta_keywords,
         seo_extras: seoExtras,
       })
-      .eq("id", chapter_id);
+      .eq("id", chapter_id)
+      .select("id, meta_title");
+    console.log("Update result:", { updated, upErr, count });
     if (upErr) throw upErr;
+    if (!updated || updated.length === 0) throw new Error("Update affected 0 rows - check RLS / service role key");
 
     return new Response(
       JSON.stringify({
