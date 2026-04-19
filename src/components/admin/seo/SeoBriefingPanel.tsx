@@ -13,6 +13,7 @@ interface Props {
   synopsis: string;
   categories: string;
   ageRating: string;
+  onApply?: (field: string, value: string) => void;
 }
 
 interface Briefing {
