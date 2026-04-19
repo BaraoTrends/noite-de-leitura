@@ -195,8 +195,12 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          meta_description: string | null
+          meta_keywords: string | null
+          meta_title: string | null
           novel_id: string
           published_at: string | null
+          seo_extras: Json | null
           status: string
           title: string
           updated_at: string
@@ -207,8 +211,12 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          meta_title?: string | null
           novel_id: string
           published_at?: string | null
+          seo_extras?: Json | null
           status?: string
           title: string
           updated_at?: string
@@ -219,8 +227,12 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          meta_title?: string | null
           novel_id?: string
           published_at?: string | null
+          seo_extras?: Json | null
           status?: string
           title?: string
           updated_at?: string
