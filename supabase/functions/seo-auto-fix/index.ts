@@ -107,13 +107,20 @@ Return JSON ONLY:
     const aiData = await aiRes.json();
     const fix = JSON.parse(aiData.choices[0].message.content);
 
-    // Apply optimized meta fields to novel
+    // Apply optimized meta fields + SEO extras (h1, alt, schema) to novel
+    const seoExtras = {
+      h1_suggestion: fix.h1_suggestion,
+      image_alt: fix.image_alt,
+      schema_book: fix.schema_book,
+      updated_at: new Date().toISOString(),
+    };
     const { error: upErr } = await supabase
       .from("novels")
       .update({
         meta_title: fix.meta_title?.slice(0, 70),
         meta_description: fix.meta_description?.slice(0, 170),
         meta_keywords: fix.meta_keywords,
+        seo_extras: seoExtras,
       })
       .eq("id", novel_id);
     if (upErr) throw upErr;

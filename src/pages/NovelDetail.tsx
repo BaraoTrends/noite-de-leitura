@@ -117,7 +117,11 @@ const NovelDetail = () => {
         { '@type': 'ListItem', position: novel.categories[0] ? 3 : 2, name: novel.title },
       ],
     },
+    ...(novel.seoExtras?.schema_book ? [novel.seoExtras.schema_book] : []),
   ];
+
+  const headline = novel.seoExtras?.h1_suggestion || novel.title;
+  const coverAlt = novel.seoExtras?.image_alt || novel.title;
 
   return (
     <Layout>
@@ -132,7 +136,7 @@ const NovelDetail = () => {
       />
       <section className="relative py-12 bg-gradient-hero">
         <div className="absolute inset-0">
-          <img src={novel.thumbnail} alt={novel.title} className="w-full h-full object-cover opacity-20 blur-md" />
+          <img src={novel.thumbnail} alt={coverAlt} className="w-full h-full object-cover opacity-20 blur-md" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
         </div>
         <div className="container mx-auto px-4 relative z-10">
@@ -142,7 +146,7 @@ const NovelDetail = () => {
           <div className="flex flex-col lg:flex-row gap-8">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex-shrink-0">
               <div className="w-64 h-80 rounded-xl overflow-hidden card-shadow border-2 border-primary/30 mx-auto lg:mx-0">
-                <img src={novel.thumbnail} alt={novel.title} className="w-full h-full object-cover" />
+                <img src={novel.thumbnail} alt={coverAlt} className="w-full h-full object-cover" />
               </div>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1">
@@ -150,7 +154,7 @@ const NovelDetail = () => {
                 {novel.categories.map((cat) => (<Badge key={cat} className="bg-purple-accent/80 text-foreground border-0">{cat}</Badge>))}
                 <Badge className={cn(novel.ageRating === 'Livre' && "bg-green-500/90", novel.ageRating === '+12' && "bg-yellow-500/90", novel.ageRating === '+16' && "bg-orange-500/90", novel.ageRating === '+18' && "bg-red-500/90")}>{novel.ageRating}</Badge>
               </div>
-              <h1 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-4">{novel.title}</h1>
+              <h1 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-4">{headline}</h1>
               <Link to={`/autor/${novel.author.id}`} className="flex items-center gap-3 mb-6 group">
                 <img src={novel.author.avatar} alt={novel.author.name} className="w-10 h-10 rounded-full border-2 border-border group-hover:border-primary transition-colors" />
                 <div>

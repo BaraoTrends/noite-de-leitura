@@ -1,0 +1,1 @@
+ALTER TABLE public.novels ADD COLUMN IF NOT EXISTS seo_extras JSONB DEFAULT '{}'::jsonb;

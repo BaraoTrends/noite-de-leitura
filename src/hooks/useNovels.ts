@@ -51,6 +51,7 @@ function mapDbNovelToNovel(dbNovel: any): Novel {
     isNew: dbNovel.is_new || false,
     youtubeVideoId: dbNovel.youtube_video_id || undefined,
     commentsCount: 0,
+    seoExtras: dbNovel.seo_extras || undefined,
   };
 }
 
