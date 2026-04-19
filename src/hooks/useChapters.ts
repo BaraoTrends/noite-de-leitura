@@ -34,7 +34,7 @@ export function useChaptersByNovel(novelId: string | undefined) {
         .eq('novel_id', novelId)
         .eq('status', 'published')
         .order('chapter_order', { ascending: true });
-      setChapters(data || []);
+      setChapters((data || []) as ChapterData[]);
       setLoading(false);
     };
     fetch();
@@ -56,7 +56,7 @@ export function useChapterById(chapterId: string | undefined) {
         .select('id, title, content, chapter_order, published_at, views, novel_id, meta_title, meta_description, meta_keywords, seo_extras')
         .eq('id', chapterId)
         .single();
-      setChapter(data || null);
+      setChapter((data as ChapterData) || null);
       setLoading(false);
     };
     fetch();
