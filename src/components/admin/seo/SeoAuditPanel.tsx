@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { SerpPreview } from './SerpPreview';
@@ -14,10 +17,12 @@ interface Props {
   novelSlug: string;
   metaTitle?: string;
   metaDescription?: string;
+  metaKeywords?: string;
   thumbnailUrl?: string;
+  onChange?: (field: string, value: string) => void;
 }
 
-export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription, thumbnailUrl }: Props) {
+export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription, metaKeywords, thumbnailUrl, onChange }: Props) {
   const [loading, setLoading] = useState(false);
   const [fixing, setFixing] = useState(false);
   const [audit, setAudit] = useState<any>(null);
@@ -77,9 +82,30 @@ export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription, 
         </div>
       )}
 
+      {onChange && (
+        <Card>
+          <CardContent className="p-3 space-y-2">
+            <Label className="text-xs uppercase tracking-wide text-muted-foreground">Edição manual de meta tags</Label>
+            <div className="space-y-1.5">
+              <Label className="text-xs">Meta Title <span className="text-muted-foreground">({(metaTitle || '').length}/60)</span></Label>
+              <Input value={metaTitle || ''} onChange={e => onChange('meta_title', e.target.value)} className="h-8 text-sm" />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs">Meta Description <span className="text-muted-foreground">({(metaDescription || '').length}/160)</span></Label>
+              <Textarea value={metaDescription || ''} onChange={e => onChange('meta_description', e.target.value)} rows={2} className="text-sm" />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs">Keywords</Label>
+              <Input value={metaKeywords || ''} onChange={e => onChange('meta_keywords', e.target.value)} className="h-8 text-sm" placeholder="kw1, kw2, kw3" />
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       <Button variant="outline" size="sm" onClick={runAudit} disabled={loading} className="w-full">
         {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Auditando com IA...</> : <><Sparkles className="w-4 h-4 mr-2" />Rodar Auditoria SEO</>}
       </Button>
+
 
       {audit && (
         <div className="space-y-3">
