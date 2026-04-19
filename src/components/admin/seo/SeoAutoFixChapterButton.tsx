@@ -4,13 +4,25 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { SerpPreview } from './SerpPreview';
 
 interface Props {
   chapterId: string;
+  novelSlug?: string;
+  novelId?: string;
+  initialMetaTitle?: string;
+  initialMetaDescription?: string;
   size?: 'sm' | 'default';
 }
 
-export function SeoAutoFixChapterButton({ chapterId, size = 'sm' }: Props) {
+export function SeoAutoFixChapterButton({
+  chapterId,
+  novelSlug,
+  novelId,
+  initialMetaTitle,
+  initialMetaDescription,
+  size = 'sm',
+}: Props) {
   const [fixing, setFixing] = useState(false);
   const [result, setResult] = useState<any>(null);
   const { toast } = useToast();
@@ -36,8 +48,23 @@ export function SeoAutoFixChapterButton({ chapterId, size = 'sm' }: Props) {
     }
   };
 
+  // SERP preview uses freshly applied values when present, otherwise the initial chapter values
+  const previewTitle = (result?.applied?.meta_title || initialMetaTitle || '').trim();
+  const previewDesc = (result?.applied?.meta_description || initialMetaDescription || '').trim();
+  const novelPart = novelSlug || novelId || 'novel';
+  const previewUrl = `https://eroticsnovels.com/novel/${novelPart}/capitulo/${chapterId}`;
+
   return (
     <div className="space-y-2">
+      {(previewTitle || previewDesc) && (
+        <SerpPreview
+          title={previewTitle}
+          description={previewDesc}
+          url={previewUrl}
+          label="Pré-visualização SERP do capítulo"
+        />
+      )}
+
       <Button onClick={autoFix} disabled={fixing} size={size} variant="outline" className="w-full">
         {fixing ? (
           <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Corrigindo SEO com IA...</>
