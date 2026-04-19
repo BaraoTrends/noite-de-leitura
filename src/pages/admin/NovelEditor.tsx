@@ -173,7 +173,19 @@ export default function NovelEditor() {
                 {!isNew && id && <TabsTrigger value="links">Links Internos</TabsTrigger>}
               </TabsList>
               <TabsContent value="checker" className="pt-4">
-                <SeoChecker title={form.title} metaTitle={form.meta_title} metaDescription={form.meta_description} metaKeywords={form.meta_keywords} synopsis={form.synopsis} content={form.content} thumbnail={form.thumbnail_url} slug={form.slug} />
+                <SeoChecker
+                  title={form.title}
+                  metaTitle={form.meta_title}
+                  metaDescription={form.meta_description}
+                  metaKeywords={form.meta_keywords}
+                  synopsis={form.synopsis}
+                  content={form.content}
+                  thumbnail={form.thumbnail_url}
+                  slug={form.slug}
+                  ageRating={form.age_rating}
+                  categories={categories.filter(c => selectedCategories.includes(c.id)).map(c => c.name).join(', ')}
+                  onChange={handleChange}
+                />
               </TabsContent>
               <TabsContent value="briefing" className="pt-4">
                 <SeoBriefingPanel title={form.title} synopsis={form.synopsis} categories={categories.filter(c => selectedCategories.includes(c.id)).map(c => c.name).join(', ')} ageRating={form.age_rating} />
@@ -183,7 +195,15 @@ export default function NovelEditor() {
               </TabsContent>
               {!isNew && id && (
                 <TabsContent value="audit" className="pt-4">
-                  <SeoAuditPanel novelId={id} novelSlug={form.slug} metaTitle={form.meta_title} metaDescription={form.meta_description} thumbnailUrl={form.thumbnail_url} />
+                  <SeoAuditPanel
+                    novelId={id}
+                    novelSlug={form.slug}
+                    metaTitle={form.meta_title}
+                    metaDescription={form.meta_description}
+                    metaKeywords={form.meta_keywords}
+                    thumbnailUrl={form.thumbnail_url}
+                    onChange={handleChange}
+                  />
                 </TabsContent>
               )}
               {!isNew && id && (
