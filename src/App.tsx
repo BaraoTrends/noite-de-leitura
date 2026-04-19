@@ -34,6 +34,9 @@ import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminVisualEdits from "./pages/admin/AdminVisualEdits";
 import AdminAIHistory from "./pages/admin/AdminAIHistory";
+import AdminKeywordRankings from "./pages/admin/AdminKeywordRankings";
+import AdminSeoAudits from "./pages/admin/AdminSeoAudits";
+import AdminInternalLinks from "./pages/admin/AdminInternalLinks";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +78,9 @@ const App = () => (
             <Route path="/admin/settings" element={<AdminSettings />} />
             <Route path="/admin/visual-edits" element={<AdminVisualEdits />} />
             <Route path="/admin/ai-history" element={<AdminAIHistory />} />
+            <Route path="/admin/seo-rankings" element={<AdminKeywordRankings />} />
+            <Route path="/admin/seo-audits" element={<AdminSeoAudits />} />
+            <Route path="/admin/internal-links" element={<AdminInternalLinks />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

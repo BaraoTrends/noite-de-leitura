@@ -329,6 +329,186 @@ export type Database = {
           },
         ]
       }
+      indexing_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          id: string
+          is_resolved: boolean
+          message: string
+          resolved_at: string | null
+          severity: string
+          url: string
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string
+          id?: string
+          is_resolved?: boolean
+          message: string
+          resolved_at?: string | null
+          severity?: string
+          url: string
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          id?: string
+          is_resolved?: boolean
+          message?: string
+          resolved_at?: string | null
+          severity?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      indexing_status: {
+        Row: {
+          chapter_id: string | null
+          created_at: string
+          error_message: string | null
+          google_response: Json | null
+          id: string
+          last_checked_at: string | null
+          last_indexed_at: string | null
+          last_submitted_at: string | null
+          novel_id: string | null
+          retry_count: number
+          status: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          chapter_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          google_response?: Json | null
+          id?: string
+          last_checked_at?: string | null
+          last_indexed_at?: string | null
+          last_submitted_at?: string | null
+          novel_id?: string | null
+          retry_count?: number
+          status?: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          chapter_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          google_response?: Json | null
+          id?: string
+          last_checked_at?: string | null
+          last_indexed_at?: string | null
+          last_submitted_at?: string | null
+          novel_id?: string | null
+          retry_count?: number
+          status?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      internal_links: {
+        Row: {
+          anchor_text: string
+          applied_at: string | null
+          context: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          relevance_score: number | null
+          source_chapter_id: string | null
+          source_novel_id: string | null
+          source_url: string
+          status: string
+          target_chapter_id: string | null
+          target_novel_id: string | null
+          target_url: string
+          updated_at: string
+        }
+        Insert: {
+          anchor_text: string
+          applied_at?: string | null
+          context?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          relevance_score?: number | null
+          source_chapter_id?: string | null
+          source_novel_id?: string | null
+          source_url: string
+          status?: string
+          target_chapter_id?: string | null
+          target_novel_id?: string | null
+          target_url: string
+          updated_at?: string
+        }
+        Update: {
+          anchor_text?: string
+          applied_at?: string | null
+          context?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          relevance_score?: number | null
+          source_chapter_id?: string | null
+          source_novel_id?: string | null
+          source_url?: string
+          status?: string
+          target_chapter_id?: string | null
+          target_novel_id?: string | null
+          target_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      keyword_rankings: {
+        Row: {
+          checked_at: string
+          country: string
+          created_at: string
+          device: string
+          id: string
+          keyword: string
+          novel_id: string | null
+          position: number | null
+          previous_position: number | null
+          search_engine: string
+          search_volume: number | null
+          url: string
+        }
+        Insert: {
+          checked_at?: string
+          country?: string
+          created_at?: string
+          device?: string
+          id?: string
+          keyword: string
+          novel_id?: string | null
+          position?: number | null
+          previous_position?: number | null
+          search_engine?: string
+          search_volume?: number | null
+          url: string
+        }
+        Update: {
+          checked_at?: string
+          country?: string
+          created_at?: string
+          device?: string
+          id?: string
+          keyword?: string
+          novel_id?: string | null
+          position?: number | null
+          previous_position?: number | null
+          search_engine?: string
+          search_volume?: number | null
+          url?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           created_at: string
@@ -624,6 +804,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      seo_audit_jobs: {
+        Row: {
+          ai_summary: string | null
+          chapter_id: string | null
+          completed_at: string | null
+          content_analysis: Json | null
+          created_at: string
+          created_by: string | null
+          id: string
+          issues: Json | null
+          meta_analysis: Json | null
+          novel_id: string | null
+          score: number | null
+          status: string
+          suggestions: Json | null
+          technical_analysis: Json | null
+          url: string
+        }
+        Insert: {
+          ai_summary?: string | null
+          chapter_id?: string | null
+          completed_at?: string | null
+          content_analysis?: Json | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          issues?: Json | null
+          meta_analysis?: Json | null
+          novel_id?: string | null
+          score?: number | null
+          status?: string
+          suggestions?: Json | null
+          technical_analysis?: Json | null
+          url: string
+        }
+        Update: {
+          ai_summary?: string | null
+          chapter_id?: string | null
+          completed_at?: string | null
+          content_analysis?: Json | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          issues?: Json | null
+          meta_analysis?: Json | null
+          novel_id?: string | null
+          score?: number | null
+          status?: string
+          suggestions?: Json | null
+          technical_analysis?: Json | null
+          url?: string
+        }
+        Relationships: []
       }
       seo_settings: {
         Row: {
