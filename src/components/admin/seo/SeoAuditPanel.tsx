@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { SerpPreview } from './SerpPreview';
 
 interface Props {
   novelId: string;
@@ -68,33 +69,7 @@ export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription }
   return (
     <div className="space-y-3">
       {(previewTitle || previewDesc) && (
-        <div>
-          <p className="text-xs uppercase tracking-wide text-muted-foreground mb-1.5">Pré-visualização SERP (Google)</p>
-          <div className="rounded-lg border bg-background p-3 font-sans">
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold">E</div>
-              <div className="leading-tight">
-                <div className="text-xs text-foreground">Erotics Novels</div>
-                <div className="text-[11px] text-muted-foreground">{previewUrl.replace('https://', '').replace(/\/.*/, '')} › novel › {novelSlug}</div>
-              </div>
-            </div>
-            <a href={previewUrl} target="_blank" rel="noreferrer" className="block text-[#1a0dab] dark:text-[#8ab4f8] text-lg leading-snug hover:underline truncate">
-              {truncate(previewTitle || 'Sem meta título definido', 60)}
-            </a>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              <span className="text-foreground/70">{new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })} — </span>
-              {truncate(previewDesc || 'Sem meta descrição definida. Adicione uma para melhorar o CTR nos resultados de busca.', 160)}
-            </p>
-          </div>
-          <div className="flex gap-3 mt-1.5 text-[10px] text-muted-foreground">
-            <span className={previewTitle.length > 60 ? 'text-destructive' : previewTitle.length < 30 ? 'text-yellow-500' : ''}>
-              Título: {previewTitle.length}/60
-            </span>
-            <span className={previewDesc.length > 160 ? 'text-destructive' : previewDesc.length < 120 ? 'text-yellow-500' : ''}>
-              Descrição: {previewDesc.length}/160
-            </span>
-          </div>
-        </div>
+        <SerpPreview title={previewTitle} description={previewDesc} url={previewUrl} />
       )}
 
       <Button variant="outline" size="sm" onClick={runAudit} disabled={loading} className="w-full">
