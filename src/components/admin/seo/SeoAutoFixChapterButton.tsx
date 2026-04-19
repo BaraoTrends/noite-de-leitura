@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { SerpPreview } from './SerpPreview';
+import { OgPreview } from './OgPreview';
 
 interface Props {
   chapterId: string;
@@ -12,6 +13,7 @@ interface Props {
   novelId?: string;
   initialMetaTitle?: string;
   initialMetaDescription?: string;
+  thumbnailUrl?: string;
   size?: 'sm' | 'default';
 }
 
