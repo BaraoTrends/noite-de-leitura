@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { SerpPreview } from './SerpPreview';
@@ -14,10 +17,12 @@ interface Props {
   novelSlug: string;
   metaTitle?: string;
   metaDescription?: string;
+  metaKeywords?: string;
   thumbnailUrl?: string;
+  onChange?: (field: string, value: string) => void;
 }
 
-export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription, thumbnailUrl }: Props) {
+export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription, metaKeywords, thumbnailUrl, onChange }: Props) {
   const [loading, setLoading] = useState(false);
   const [fixing, setFixing] = useState(false);
   const [audit, setAudit] = useState<any>(null);
