@@ -28,7 +28,7 @@ interface Briefing {
   competitor_angle: string;
 }
 
-export function SeoBriefingPanel({ title, synopsis, categories, ageRating }: Props) {
+export function SeoBriefingPanel({ title, synopsis, categories, ageRating, onApply }: Props) {
   const [loading, setLoading] = useState(false);
   const [refining, setRefining] = useState(false);
   const [briefing, setBriefing] = useState<Briefing | null>(null);
