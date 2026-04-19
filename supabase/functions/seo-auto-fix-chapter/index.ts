@@ -109,7 +109,7 @@ Return JSON ONLY:
       updated_at: new Date().toISOString(),
     };
 
-    const { error: upErr } = await supabase
+    const { data: updated, error: upErr } = await supabase
       .from("chapters")
       .update({
         meta_title: fix.meta_title?.slice(0, 70),
@@ -117,8 +117,10 @@ Return JSON ONLY:
         meta_keywords: fix.meta_keywords,
         seo_extras: seoExtras,
       })
-      .eq("id", chapter_id);
+      .eq("id", chapter_id)
+      .select("id");
     if (upErr) throw upErr;
+    if (!updated || updated.length === 0) throw new Error("Update affected 0 rows");
 
     return new Response(
       JSON.stringify({
