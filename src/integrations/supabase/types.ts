@@ -666,6 +666,7 @@ export type Database = {
           rating: number
           rating_count: number
           read_time: number
+          seo_extras: Json | null
           slug: string
           status: string
           synopsis: string
@@ -690,6 +691,7 @@ export type Database = {
           rating?: number
           rating_count?: number
           read_time?: number
+          seo_extras?: Json | null
           slug: string
           status?: string
           synopsis?: string
@@ -714,6 +716,7 @@ export type Database = {
           rating?: number
           rating_count?: number
           read_time?: number
+          seo_extras?: Json | null
           slug?: string
           status?: string
           synopsis?: string
