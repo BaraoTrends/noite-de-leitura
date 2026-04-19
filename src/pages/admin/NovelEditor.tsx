@@ -14,6 +14,12 @@ import { useToast } from '@/hooks/use-toast';
 import { AIGenerateNovelDialog } from '@/components/ai/AIGenerateNovelDialog';
 import { AIGenerateChaptersDialog } from '@/components/ai/AIGenerateChaptersDialog';
 import { AIGenerateCoverDialog } from '@/components/ai/AIGenerateCoverDialog';
+import { SeoChecker } from '@/components/admin/seo/SeoChecker';
+import { SeoBriefingPanel } from '@/components/admin/seo/SeoBriefingPanel';
+import { InternalLinksSuggestions } from '@/components/admin/seo/InternalLinksSuggestions';
+import { AiAssistantPanel } from '@/components/admin/seo/AiAssistantPanel';
+import { SeoAuditPanel } from '@/components/admin/seo/SeoAuditPanel';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, Loader2 } from 'lucide-react';
 
 const AGE_RATINGS = ['Livre', '+12', '+16', '+18'];
@@ -155,6 +161,37 @@ export default function NovelEditor() {
             <div className="space-y-2"><Label>Meta Title</Label><Input value={form.meta_title} onChange={e => handleChange('meta_title', e.target.value)} placeholder={form.title} /></div>
             <div className="space-y-2"><Label>Meta Description</Label><Textarea value={form.meta_description} onChange={e => handleChange('meta_description', e.target.value)} rows={2} /></div>
             <div className="space-y-2"><Label>Keywords</Label><Input value={form.meta_keywords} onChange={e => handleChange('meta_keywords', e.target.value)} placeholder="novel, romance, fantasy" /></div>
+          </CardContent></Card>
+
+          <Card><CardHeader><CardTitle className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-primary" />Ferramentas de SEO + IA</CardTitle></CardHeader><CardContent>
+            <Tabs defaultValue="checker">
+              <TabsList className="flex-wrap h-auto">
+                <TabsTrigger value="checker">Checker</TabsTrigger>
+                <TabsTrigger value="briefing">Briefing IA</TabsTrigger>
+                <TabsTrigger value="assistant">Assistente</TabsTrigger>
+                {!isNew && id && <TabsTrigger value="audit">Auditoria</TabsTrigger>}
+                {!isNew && id && <TabsTrigger value="links">Links Internos</TabsTrigger>}
+              </TabsList>
+              <TabsContent value="checker" className="pt-4">
+                <SeoChecker title={form.title} metaTitle={form.meta_title} metaDescription={form.meta_description} metaKeywords={form.meta_keywords} synopsis={form.synopsis} content={form.content} thumbnail={form.thumbnail_url} slug={form.slug} />
+              </TabsContent>
+              <TabsContent value="briefing" className="pt-4">
+                <SeoBriefingPanel title={form.title} synopsis={form.synopsis} categories={categories.filter(c => selectedCategories.includes(c.id)).map(c => c.name).join(', ')} ageRating={form.age_rating} />
+              </TabsContent>
+              <TabsContent value="assistant" className="pt-4">
+                <AiAssistantPanel />
+              </TabsContent>
+              {!isNew && id && (
+                <TabsContent value="audit" className="pt-4">
+                  <SeoAuditPanel novelId={id} novelSlug={form.slug} />
+                </TabsContent>
+              )}
+              {!isNew && id && (
+                <TabsContent value="links" className="pt-4">
+                  <InternalLinksSuggestions novelId={id} />
+                </TabsContent>
+              )}
+            </Tabs>
           </CardContent></Card>
 
           <div className="flex justify-end gap-3">
