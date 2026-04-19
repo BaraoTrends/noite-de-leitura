@@ -109,7 +109,8 @@ Return JSON ONLY:
       updated_at: new Date().toISOString(),
     };
 
-    const { data: updated, error: upErr } = await supabase
+    console.log("Updating chapter", chapter_id, "service_key_present:", !!Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"));
+    const { data: updated, error: upErr, count } = await supabase
       .from("chapters")
       .update({
         meta_title: fix.meta_title?.slice(0, 70),
@@ -118,9 +119,10 @@ Return JSON ONLY:
         seo_extras: seoExtras,
       })
       .eq("id", chapter_id)
-      .select("id");
+      .select("id, meta_title");
+    console.log("Update result:", { updated, upErr, count });
     if (upErr) throw upErr;
-    if (!updated || updated.length === 0) throw new Error("Update affected 0 rows");
+    if (!updated || updated.length === 0) throw new Error("Update affected 0 rows - check RLS / service role key");
 
     return new Response(
       JSON.stringify({
