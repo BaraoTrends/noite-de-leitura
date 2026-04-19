@@ -33,6 +33,11 @@ export interface Novel {
   isFeatured?: boolean;
   isNew?: boolean;
   commentsCount?: number;
+  seoExtras?: {
+    h1_suggestion?: string;
+    image_alt?: string;
+    schema_book?: Record<string, unknown>;
+  };
 }
 
 export interface Chapter {
