@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Loader2, Sparkles, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
+import { Loader2, Sparkles, AlertTriangle, CheckCircle2, Info, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,8 +14,28 @@ interface Props {
 
 export function SeoAuditPanel({ novelId, novelSlug }: Props) {
   const [loading, setLoading] = useState(false);
+  const [fixing, setFixing] = useState(false);
   const [audit, setAudit] = useState<any>(null);
+  const [fixResult, setFixResult] = useState<any>(null);
   const { toast } = useToast();
+
+  const autoFix = async () => {
+    setFixing(true);
+    setFixResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke('seo-auto-fix', {
+        body: { novel_id: novelId },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setFixResult(data);
+      toast({ title: 'SEO corrigido!', description: 'Meta tags atualizadas. Rode a auditoria novamente para ver o novo score.' });
+    } catch (err: any) {
+      toast({ title: 'Erro', description: err.message, variant: 'destructive' });
+    } finally {
+      setFixing(false);
+    }
+  };
 
   const runAudit = async () => {
     setLoading(true);
@@ -86,6 +106,30 @@ export function SeoAuditPanel({ novelId, novelSlug }: Props) {
                 ))}
               </div>
             </div>
+          )}
+
+          <Button onClick={autoFix} disabled={fixing} size="sm" className="w-full">
+            {fixing ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Corrigindo com IA...</> : <><Wand2 className="w-4 h-4 mr-2" />Corrigir Automaticamente com IA</>}
+          </Button>
+
+          {fixResult && (
+            <Card className="border-green-500/30 bg-green-500/5">
+              <CardContent className="p-3 space-y-2 text-xs">
+                <p className="font-medium flex items-center gap-1.5 text-green-600 dark:text-green-400">
+                  <CheckCircle2 className="w-3.5 h-3.5" />Correções aplicadas
+                </p>
+                <div className="space-y-1.5">
+                  <div><span className="text-muted-foreground">Title:</span> {fixResult.applied?.meta_title}</div>
+                  <div><span className="text-muted-foreground">Description:</span> {fixResult.applied?.meta_description}</div>
+                  <div><span className="text-muted-foreground">Keywords:</span> {fixResult.applied?.meta_keywords}</div>
+                </div>
+                {fixResult.improvements?.length > 0 && (
+                  <ul className="list-disc pl-4 text-muted-foreground space-y-0.5 mt-2">
+                    {fixResult.improvements.map((i: string, idx: number) => <li key={idx}>{i}</li>)}
+                  </ul>
+                )}
+              </CardContent>
+            </Card>
           )}
         </div>
       )}
