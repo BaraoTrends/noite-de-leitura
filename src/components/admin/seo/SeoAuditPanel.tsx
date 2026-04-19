@@ -10,14 +10,22 @@ import { useToast } from '@/hooks/use-toast';
 interface Props {
   novelId: string;
   novelSlug: string;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
-export function SeoAuditPanel({ novelId, novelSlug }: Props) {
+export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription }: Props) {
   const [loading, setLoading] = useState(false);
   const [fixing, setFixing] = useState(false);
   const [audit, setAudit] = useState<any>(null);
   const [fixResult, setFixResult] = useState<any>(null);
   const { toast } = useToast();
+
+  // Use freshly applied meta from auto-fix if present, otherwise current form values
+  const previewTitle = (fixResult?.applied?.meta_title || metaTitle || '').trim();
+  const previewDesc = (fixResult?.applied?.meta_description || metaDescription || '').trim();
+  const previewUrl = `https://eroticsnovels.com/novel/${novelSlug}`;
+  const truncate = (s: string, n: number) => s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s;
 
   const autoFix = async () => {
     setFixing(true);
