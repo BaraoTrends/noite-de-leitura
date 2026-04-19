@@ -3,6 +3,7 @@ import { Link, useLocation, Navigate } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Users, MessageSquare, Image, Settings, Paintbrush,
   Search as SearchIcon, Tag, Bell, BarChart3, Shield, Globe, ChevronLeft, LogOut, Menu, Sparkles,
+  TrendingUp, ClipboardCheck, Link2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,6 +19,9 @@ const navItems = [
   { label: 'Banners', href: '/admin/banners', icon: Image },
   { label: 'Users', href: '/admin/users', icon: Shield },
   { label: 'SEO', href: '/admin/seo', icon: Globe },
+  { label: 'SEO Rankings', href: '/admin/seo-rankings', icon: TrendingUp },
+  { label: 'SEO Audits', href: '/admin/seo-audits', icon: ClipboardCheck },
+  { label: 'Links Internos', href: '/admin/internal-links', icon: Link2 },
   { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
   { label: 'Notifications', href: '/admin/notifications', icon: Bell },
   { label: 'Visual Edits', href: '/admin/visual-edits', icon: Paintbrush },
