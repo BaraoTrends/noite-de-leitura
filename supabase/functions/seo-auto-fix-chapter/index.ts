@@ -13,11 +13,10 @@ Deno.serve(async (req) => {
     const { chapter_id } = await req.json();
     if (!chapter_id) throw new Error("chapter_id required");
 
-    const authHeader = req.headers.get("Authorization");
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-      authHeader ? { global: { headers: { Authorization: authHeader } } } : undefined
+      { auth: { persistSession: false } }
     );
 
     // Load chapter
