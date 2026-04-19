@@ -7,15 +7,17 @@ import { Progress } from '@/components/ui/progress';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { SerpPreview } from './SerpPreview';
+import { OgPreview } from './OgPreview';
 
 interface Props {
   novelId: string;
   novelSlug: string;
   metaTitle?: string;
   metaDescription?: string;
+  thumbnailUrl?: string;
 }
 
-export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription }: Props) {
+export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription, thumbnailUrl }: Props) {
   const [loading, setLoading] = useState(false);
   const [fixing, setFixing] = useState(false);
   const [audit, setAudit] = useState<any>(null);
@@ -69,7 +71,10 @@ export function SeoAuditPanel({ novelId, novelSlug, metaTitle, metaDescription }
   return (
     <div className="space-y-3">
       {(previewTitle || previewDesc) && (
-        <SerpPreview title={previewTitle} description={previewDesc} url={previewUrl} />
+        <div className="grid gap-3 md:grid-cols-2">
+          <SerpPreview title={previewTitle} description={previewDesc} url={previewUrl} />
+          <OgPreview title={previewTitle} description={previewDesc} url={previewUrl} image={thumbnailUrl} />
+        </div>
       )}
 
       <Button variant="outline" size="sm" onClick={runAudit} disabled={loading} className="w-full">

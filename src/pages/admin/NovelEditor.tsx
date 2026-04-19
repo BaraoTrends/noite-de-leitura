@@ -183,7 +183,7 @@ export default function NovelEditor() {
               </TabsContent>
               {!isNew && id && (
                 <TabsContent value="audit" className="pt-4">
-                  <SeoAuditPanel novelId={id} novelSlug={form.slug} metaTitle={form.meta_title} metaDescription={form.meta_description} />
+                  <SeoAuditPanel novelId={id} novelSlug={form.slug} metaTitle={form.meta_title} metaDescription={form.meta_description} thumbnailUrl={form.thumbnail_url} />
                 </TabsContent>
               )}
               {!isNew && id && (

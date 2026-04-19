@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { SerpPreview } from './SerpPreview';
+import { OgPreview } from './OgPreview';
 
 interface Props {
   chapterId: string;
@@ -12,6 +13,7 @@ interface Props {
   novelId?: string;
   initialMetaTitle?: string;
   initialMetaDescription?: string;
+  thumbnailUrl?: string;
   size?: 'sm' | 'default';
 }
 
@@ -21,6 +23,7 @@ export function SeoAutoFixChapterButton({
   novelId,
   initialMetaTitle,
   initialMetaDescription,
+  thumbnailUrl,
   size = 'sm',
 }: Props) {
   const [fixing, setFixing] = useState(false);
@@ -57,12 +60,20 @@ export function SeoAutoFixChapterButton({
   return (
     <div className="space-y-2">
       {(previewTitle || previewDesc) && (
-        <SerpPreview
-          title={previewTitle}
-          description={previewDesc}
-          url={previewUrl}
-          label="Pré-visualização SERP do capítulo"
-        />
+        <div className="grid gap-3 md:grid-cols-2">
+          <SerpPreview
+            title={previewTitle}
+            description={previewDesc}
+            url={previewUrl}
+            label="Pré-visualização SERP do capítulo"
+          />
+          <OgPreview
+            title={previewTitle}
+            description={previewDesc}
+            url={previewUrl}
+            image={thumbnailUrl}
+          />
+        </div>
       )}
 
       <Button onClick={autoFix} disabled={fixing} size={size} variant="outline" className="w-full">
