@@ -188,7 +188,7 @@ export default function NovelEditor() {
                 />
               </TabsContent>
               <TabsContent value="briefing" className="pt-4">
-                <SeoBriefingPanel title={form.title} synopsis={form.synopsis} categories={categories.filter(c => selectedCategories.includes(c.id)).map(c => c.name).join(', ')} ageRating={form.age_rating} />
+                <SeoBriefingPanel title={form.title} synopsis={form.synopsis} categories={categories.filter(c => selectedCategories.includes(c.id)).map(c => c.name).join(', ')} ageRating={form.age_rating} onApply={handleChange} />
               </TabsContent>
               <TabsContent value="assistant" className="pt-4">
                 <AiAssistantPanel />
