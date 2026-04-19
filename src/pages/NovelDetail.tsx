@@ -117,7 +117,11 @@ const NovelDetail = () => {
         { '@type': 'ListItem', position: novel.categories[0] ? 3 : 2, name: novel.title },
       ],
     },
+    ...(novel.seoExtras?.schema_book ? [novel.seoExtras.schema_book] : []),
   ];
+
+  const headline = novel.seoExtras?.h1_suggestion || novel.title;
+  const coverAlt = novel.seoExtras?.image_alt || novel.title;
 
   return (
     <Layout>
