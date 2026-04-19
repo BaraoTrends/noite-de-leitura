@@ -102,7 +102,7 @@ const ChapterReader = () => {
 
         {/* Immersive content */}
         <article className="max-w-3xl mx-auto px-6 sm:px-8 py-12" style={{ fontSize: `${fontSize}px` }}>
-          <h1 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-8">{chapter.title}</h1>
+          <h1 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-8">{chapter.seo_extras?.h1_suggestion || chapter.title}</h1>
           <div
             className="text-foreground/90 leading-relaxed whitespace-pre-wrap"
             dangerouslySetInnerHTML={{ __html: sanitizedContent }}
@@ -147,12 +147,26 @@ const ChapterReader = () => {
     );
   }
 
+  const headline = chapter.seo_extras?.h1_suggestion || chapter.title;
+  const immersiveHeadline = chapter.seo_extras?.h1_suggestion || chapter.title;
+  const chapterUrl = `https://eroticsnovels.com/novel/${novelId}/capitulo/${chapterId}`;
+  const articleSchema = chapter.seo_extras?.schema_article || {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: chapter.title,
+    description: `Capítulo ${chapter.chapter_order} de ${novel.title}`,
+    isPartOf: { '@type': 'Book', name: novel.title },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': chapterUrl },
+  };
+
   return (
     <Layout>
       <SEOHead
-        title={`${chapter.title} - ${novel.title}`}
-        description={`Leia ${chapter.title} de ${novel.title}`}
+        title={chapter.meta_title || `${chapter.title} - ${novel.title}`}
+        description={chapter.meta_description || `Leia ${chapter.title} de ${novel.title}`}
+        keywords={chapter.meta_keywords || undefined}
         canonicalUrl={`/novel/${novelId}/capitulo/${chapterId}`}
+        jsonLd={[articleSchema]}
       />
 
       {/* Top navigation bar */}
@@ -229,7 +243,7 @@ const ChapterReader = () => {
           <BookOpen className="w-4 h-4" />
           <span>Capítulo {chapter.chapter_order} de {chapters.length}</span>
         </div>
-        <h1 className="font-display text-2xl lg:text-3xl font-bold text-foreground">{chapter.title}</h1>
+        <h1 className="font-display text-2xl lg:text-3xl font-bold text-foreground">{headline}</h1>
       </div>
 
       {/* Content */}
