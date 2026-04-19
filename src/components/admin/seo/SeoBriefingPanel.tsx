@@ -146,7 +146,14 @@ export function SeoBriefingPanel({ title, synopsis, categories, ageRating, onApp
 
           <div className="grid grid-cols-1 gap-2">
             <div className="space-y-1">
-              <Label className="text-xs uppercase tracking-wide text-muted-foreground">Padrão Title sugerido</Label>
+              <div className="flex items-center justify-between gap-2">
+                <Label className="text-xs uppercase tracking-wide text-muted-foreground">Padrão Title sugerido</Label>
+                {onApply && briefing.recommended_title_pattern && (
+                  <Button size="sm" variant="ghost" className="h-6 px-2 text-xs" onClick={() => { onApply('meta_title', briefing.recommended_title_pattern); toast({ title: 'Title aplicado ao formulário!' }); }}>
+                    <Wand2 className="w-3 h-3 mr-1" />Aplicar
+                  </Button>
+                )}
+              </div>
               <input
                 value={briefing.recommended_title_pattern || ''}
                 onChange={e => updateField('recommended_title_pattern', e.target.value)}
@@ -154,7 +161,14 @@ export function SeoBriefingPanel({ title, synopsis, categories, ageRating, onApp
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs uppercase tracking-wide text-muted-foreground">Padrão Description sugerido</Label>
+              <div className="flex items-center justify-between gap-2">
+                <Label className="text-xs uppercase tracking-wide text-muted-foreground">Padrão Description sugerido</Label>
+                {onApply && briefing.recommended_description_pattern && (
+                  <Button size="sm" variant="ghost" className="h-6 px-2 text-xs" onClick={() => { onApply('meta_description', briefing.recommended_description_pattern); toast({ title: 'Description aplicada ao formulário!' }); }}>
+                    <Wand2 className="w-3 h-3 mr-1" />Aplicar
+                  </Button>
+                )}
+              </div>
               <Textarea
                 value={briefing.recommended_description_pattern || ''}
                 onChange={e => updateField('recommended_description_pattern', e.target.value)}
@@ -162,6 +176,20 @@ export function SeoBriefingPanel({ title, synopsis, categories, ageRating, onApp
                 className="text-xs italic"
               />
             </div>
+            {onApply && (briefing.primary_keyword || (briefing.secondary_keywords?.length ?? 0) > 0) && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  const kws = [briefing.primary_keyword, ...(briefing.secondary_keywords || [])].filter(Boolean).join(', ');
+                  onApply('meta_keywords', kws);
+                  toast({ title: 'Keywords aplicadas ao formulário!' });
+                }}
+              >
+                <Wand2 className="w-3 h-3 mr-1.5" />Aplicar keywords (principal + secundárias) ao formulário
+              </Button>
+            )}
           </div>
 
           <div className="space-y-1.5">
