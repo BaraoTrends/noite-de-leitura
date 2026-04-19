@@ -9,6 +9,15 @@ export interface ChapterData {
   published_at: string | null;
   views: number;
   novel_id: string;
+  meta_title?: string | null;
+  meta_description?: string | null;
+  meta_keywords?: string | null;
+  seo_extras?: {
+    h1_suggestion?: string;
+    image_alt?: string;
+    schema_article?: any;
+    updated_at?: string;
+  } | null;
 }
 
 export function useChaptersByNovel(novelId: string | undefined) {
@@ -21,7 +30,7 @@ export function useChaptersByNovel(novelId: string | undefined) {
       setLoading(true);
       const { data } = await supabase
         .from('chapters')
-        .select('id, title, content, chapter_order, published_at, views, novel_id')
+        .select('id, title, content, chapter_order, published_at, views, novel_id, meta_title, meta_description, meta_keywords, seo_extras')
         .eq('novel_id', novelId)
         .eq('status', 'published')
         .order('chapter_order', { ascending: true });
@@ -44,7 +53,7 @@ export function useChapterById(chapterId: string | undefined) {
       setLoading(true);
       const { data } = await supabase
         .from('chapters')
-        .select('id, title, content, chapter_order, published_at, views, novel_id')
+        .select('id, title, content, chapter_order, published_at, views, novel_id, meta_title, meta_description, meta_keywords, seo_extras')
         .eq('id', chapterId)
         .single();
       setChapter(data || null);
