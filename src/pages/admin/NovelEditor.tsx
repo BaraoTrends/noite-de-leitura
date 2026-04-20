@@ -19,6 +19,7 @@ import { SeoBriefingPanel } from '@/components/admin/seo/SeoBriefingPanel';
 import { InternalLinksSuggestions } from '@/components/admin/seo/InternalLinksSuggestions';
 import { AiAssistantPanel } from '@/components/admin/seo/AiAssistantPanel';
 import { SeoAuditPanel } from '@/components/admin/seo/SeoAuditPanel';
+import { ChapterListPanel } from '@/components/admin/ChapterListPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, Loader2 } from 'lucide-react';
 
@@ -37,6 +38,8 @@ export default function NovelEditor() {
   const [form, setForm] = useState({ title: '', slug: '', synopsis: '', content: '', author_id: '', thumbnail_url: '', age_rating: 'Livre', status: 'draft', is_featured: false, is_new: true, youtube_video_id: '', read_time: 0, meta_title: '', meta_description: '', meta_keywords: '' });
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [generatingSeo, setGeneratingSeo] = useState(false);
+  const [chapterRefreshKey, setChapterRefreshKey] = useState(0);
+  const [recentGeneratedChapterIds, setRecentGeneratedChapterIds] = useState<string[]>([]);
 
   useEffect(() => {
     supabase.from('authors').select('id, name').then(({ data }) => setAuthors(data || []));
@@ -118,15 +121,21 @@ export default function NovelEditor() {
                 novelSynopsis={form.synopsis}
                 novelId={id}
                 onGenerated={async (chapters) => {
+                  const insertedChapterIds: string[] = [];
                   for (const ch of chapters) {
-                    await supabase.from('chapters').insert({
+                    const { data, error } = await supabase.from('chapters').insert({
                       novel_id: id,
                       title: ch.title,
                       chapter_order: ch.chapter_order,
                       content: ch.content,
                       status: 'draft',
-                    });
+                    }).select('id').single();
+                    if (error) throw error;
+                    if (data?.id) insertedChapterIds.push(data.id);
                   }
+                  setRecentGeneratedChapterIds(insertedChapterIds);
+                  setChapterRefreshKey(prev => prev + 1);
+                  toast({ title: 'Capítulos adicionados ao romance', description: `${insertedChapterIds.length} capítulo(s) agora aparecem na lista abaixo.` });
                 }}
               />
             )}
@@ -162,6 +171,8 @@ export default function NovelEditor() {
             <div className="space-y-2"><Label>Meta Description</Label><Textarea value={form.meta_description} onChange={e => handleChange('meta_description', e.target.value)} rows={2} /></div>
             <div className="space-y-2"><Label>Keywords</Label><Input value={form.meta_keywords} onChange={e => handleChange('meta_keywords', e.target.value)} placeholder="novel, romance, fantasy" /></div>
           </CardContent></Card>
+
+          <ChapterListPanel novelId={isNew ? undefined : id} recentChapterIds={recentGeneratedChapterIds} refreshKey={chapterRefreshKey} />
 
           <Card><CardHeader><CardTitle className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-primary" />Ferramentas de SEO + IA</CardTitle></CardHeader><CardContent>
             <Tabs defaultValue="checker">
