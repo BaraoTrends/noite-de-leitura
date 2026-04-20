@@ -121,15 +121,21 @@ export default function NovelEditor() {
                 novelSynopsis={form.synopsis}
                 novelId={id}
                 onGenerated={async (chapters) => {
+                  const insertedChapterIds: string[] = [];
                   for (const ch of chapters) {
-                    await supabase.from('chapters').insert({
+                    const { data, error } = await supabase.from('chapters').insert({
                       novel_id: id,
                       title: ch.title,
                       chapter_order: ch.chapter_order,
                       content: ch.content,
                       status: 'draft',
-                    });
+                    }).select('id').single();
+                    if (error) throw error;
+                    if (data?.id) insertedChapterIds.push(data.id);
                   }
+                  setRecentGeneratedChapterIds(insertedChapterIds);
+                  setChapterRefreshKey(prev => prev + 1);
+                  toast({ title: 'Capítulos adicionados ao romance', description: `${insertedChapterIds.length} capítulo(s) agora aparecem na lista abaixo.` });
                 }}
               />
             )}
