@@ -14,6 +14,9 @@ interface GenerateChaptersParams {
   novelTitle: string;
   novelSynopsis: string;
   chapterCount?: number;
+  startChapter?: number;
+  endChapter?: number;
+  chapterNumbers?: number[];
   language?: string;
   model?: string;
 }
