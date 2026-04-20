@@ -19,6 +19,7 @@ import { SeoBriefingPanel } from '@/components/admin/seo/SeoBriefingPanel';
 import { InternalLinksSuggestions } from '@/components/admin/seo/InternalLinksSuggestions';
 import { AiAssistantPanel } from '@/components/admin/seo/AiAssistantPanel';
 import { SeoAuditPanel } from '@/components/admin/seo/SeoAuditPanel';
+import { ChapterListPanel } from '@/components/admin/ChapterListPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, Loader2 } from 'lucide-react';
 
@@ -37,6 +38,8 @@ export default function NovelEditor() {
   const [form, setForm] = useState({ title: '', slug: '', synopsis: '', content: '', author_id: '', thumbnail_url: '', age_rating: 'Livre', status: 'draft', is_featured: false, is_new: true, youtube_video_id: '', read_time: 0, meta_title: '', meta_description: '', meta_keywords: '' });
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [generatingSeo, setGeneratingSeo] = useState(false);
+  const [chapterRefreshKey, setChapterRefreshKey] = useState(0);
+  const [recentGeneratedChapterIds, setRecentGeneratedChapterIds] = useState<string[]>([]);
 
   useEffect(() => {
     supabase.from('authors').select('id, name').then(({ data }) => setAuthors(data || []));
