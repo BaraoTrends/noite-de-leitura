@@ -172,6 +172,8 @@ export default function NovelEditor() {
             <div className="space-y-2"><Label>Keywords</Label><Input value={form.meta_keywords} onChange={e => handleChange('meta_keywords', e.target.value)} placeholder="novel, romance, fantasy" /></div>
           </CardContent></Card>
 
+          <ChapterListPanel novelId={isNew ? undefined : id} recentChapterIds={recentGeneratedChapterIds} refreshKey={chapterRefreshKey} />
+
           <Card><CardHeader><CardTitle className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-primary" />Ferramentas de SEO + IA</CardTitle></CardHeader><CardContent>
             <Tabs defaultValue="checker">
               <TabsList className="flex-wrap h-auto">
